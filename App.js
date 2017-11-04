@@ -1,4 +1,5 @@
 //@ts-check
+import { Map } from "immutable";
 
 import React from "react";
 import { Text, View } from "react-native";
@@ -8,7 +9,7 @@ import {
 } from "react-navigation";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import { Main } from "./src/components/main/Main";
+import { MainScreen } from "./src/components/main-screen/MainScreen";
 import common from "./src/ducks/common";
 
 const reducer = combineReducers({
@@ -20,7 +21,7 @@ export default class App extends React.PureComponent {
     render() {
         return (
             <Provider store={store}>
-                <Main />
+                <MainScreen />
             </Provider>
         );
     }
