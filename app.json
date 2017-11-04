@@ -1,5 +1,17 @@
 {
   "expo": {
-    "sdkVersion": "22.0.0"
+    "name": "Habits App",
+    "description": "Tool for creating and tracking tasks that you want to develop as habits",
+    "sdkVersion": "22.0.0",
+    "version": "0.1",
+    "notification": {
+      "icon": "",
+      "color": "#e7e7e7" 
+    },
+    "loading": {
+      "icon": "./src/assets/time.png", // Must be a png
+      // "backgroundImage": "",
+      "backgroundColor": "#00BCD4"
+    }
   }
 }
