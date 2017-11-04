@@ -9,6 +9,7 @@ import {
 import { List } from "immutable";
 
 import { HabitsConnected } from "../habits/Habits";
+import { StatsConnected } from "../stats/Stats";
 import styles from "./styles";
 
 export class MainScreen extends React.Component {
@@ -24,6 +25,7 @@ export class MainScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatsConnected />
                 <HabitsConnected
                     navigation={this.props.navigation}
                 />

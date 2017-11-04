@@ -7,11 +7,18 @@ const HABIT_EDIT = "habits/HABIT_EDIT";
 const HABIT_REMOVE = "habits/HABIT_REMOVE";
 
 // Selectors
-export const selectHabits = (state) => state.common.get("habits");
+export const selectHabits = (state) => state.get("habits");
+export const selectStats = (state) => state.get("statistics");
 
 
 // Initial state
 const initialState = Map({
+    statistics: Map({
+        todayDone: 2,
+        todayGoal: 5,
+        totalDone: 50,
+        total: 79,
+    }),
     habits: List([
         {
             id: 0,

@@ -14,10 +14,7 @@ import common from "./src/ducks/common";
 import { ViewHabit } from "./src/components/habit/components/ViewHabit";
 import styles from "./AppStyles";
 
-const reducer = combineReducers({
-    common,
-});
-const store = createStore(reducer);
+const store = createStore(common);
 
 // For later custom header/menu integration
 const mapNavigationStateParamsToProps = (SomeComponent) => {
