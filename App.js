@@ -11,17 +11,52 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import { MainScreen } from "./src/components/main-screen/MainScreen";
 import common from "./src/ducks/common";
+import { ViewHabit } from "./src/components/habit/components/ViewHabit";
+import styles from "./AppStyles";
 
 const reducer = combineReducers({
     common,
 });
 const store = createStore(reducer);
 
+// For later custom header/menu integration
+const mapNavigationStateParamsToProps = (SomeComponent) => {
+    return class extends React.Component {
+        static navigationOptions = SomeComponent.navigationOptions; // better use hoist-non-react-statics
+        render() {
+            return (
+                <View style={styles.container}>
+                    {/* <Header navigate={this.props.navigation.navigate} /> */}
+                    <SomeComponent {...this.props} />
+                </View>
+            )
+        }
+    }
+}
+
+const Stacks = StackNavigator({
+    MainScreen: {
+        screen: mapNavigationStateParamsToProps(MainScreen),
+        navigationOptions: {
+            header: null,
+        },
+    },
+    ViewHabit: {
+        screen: ViewHabit,
+        navigationOptions:  ({ navigation }) => { // For more complex titles, options)
+            return {
+                title: `${navigation.state.params.name}`, // check path to name prop
+            };
+        },
+    },
+});
+
+
 export default class App extends React.PureComponent {
     render() {
         return (
             <Provider store={store}>
-                <MainScreen />
+                <Stacks />
             </Provider>
         );
     }

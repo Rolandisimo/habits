@@ -4,71 +4,88 @@ import {
   Text,
   View,
   TouchableOpacity,
-  VirtualizedList
+  VirtualizedList,
 } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { List } from "immutable";
-
+import { Habit } from "../habit/Habit";
 import { selectHabits } from "../../ducks/common";
+import styles from "./styles";
 
 export class Habits extends React.Component {
-  static defaultProps = {
-    habits: List([])
-  };
+    static defaultProps = {
+        habits: List([])
+    };
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.renderHabit = this.renderHabit.bind(this);
-    this.getHabitsCount = this.getHabitsCount.bind(this);
-    this.getHabitKey = this.getHabitKey.bind(this);
-    this.getHabit = this.getHabit.bind(this);
-  }
+        this.renderHabit = this.renderHabit.bind(this);
+        this.getHabitsCount = this.getHabitsCount.bind(this);
+        this.getHabitKey = this.getHabitKey.bind(this);
+        this.getHabit = this.getHabit.bind(this);
+    }
+    
+    render() {
+        return (
+            <VirtualizedList
+                styles={styles.container}
+                getItemCount={this.getHabitsCount}
+                getItem={this.getHabit}
+                keyExtractor={this.getHabitKey}
+                renderItem={this.renderHabit}
+                data={this.props.habits}
+            />
+        );
+    }
 
-  renderHabit(habit) {
-    return (
-      <TouchableOpacity key={habit.index}>
-        <Text> {habit.item.name} </Text>
-      </TouchableOpacity>
-    );
-  }
+    /**
+     * 
+     * @param {{index: number, item: { id: number; name: string; period: number }}} habit 
+     */
+    renderHabit(habit) {
+        const { item } = habit;
+        return (
+            <Habit
+                id={item.id}
+                name={item.name}
+                period={item.period}
+                navigation={this.props.navigation}
+            />
+        );
+    }
 
-  getHabit(data, i) {
-    return data.get(i);
-  }
+    getHabit(data, i) {
+        return data.get(i);
+    }
 
-  getHabitsCount(data) {
-    return data.size;
-  }
+    getHabitsCount(data) {
+        return data.size;
+    }
 
-  getHabitKey(data) {
-    return data.id;
-  }
-
-  render() {
-    return (
-      <VirtualizedList
-        getItemCount={this.getHabitsCount}
-        getItem={this.getHabit}
-        keyExtractor={this.getHabitKey}
-        renderItem={this.renderHabit}
-        data={this.props.habits}
-      />
-    );
-  }
+    getHabitKey(data) {
+        return data.id;
+    }
 }
 
 Habits.propTypes = {
-  habits: PropTypes.instanceOf(List),
+    habits: PropTypes.instanceOf(List),
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func,
+        state: PropTypes.shape({
+            key: PropTypes.string,
+            routeName: PropTypes.string,
+        }),
+    }),
 };
 
 const mapStateToProps = (rootState) => ({
-  habits: selectHabits(rootState),
+    habits: selectHabits(rootState),
 });
 
 export const HabitsConnected = connect(
-  mapStateToProps,
-  undefined,
+    mapStateToProps,
+    undefined,
 )(Habits);
