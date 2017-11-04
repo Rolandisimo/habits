@@ -9,12 +9,20 @@ import PropTypes from "prop-types";
 
 import { Map } from "immutable";
 
-import { selectStats } from "../../ducks/common";
+import { 
+    selectTodayDone,
+    selectTodayGoal,
+    selectTotalDone,
+    selectTotal,
+} from "../../ducks/common";
 import styles from "./styles";
 
 export class Stats extends React.Component {
     static defaultProps = {
-        statistics: Map({})
+        todayDone: 0,
+        todayGoal: 0,
+        totalDone: 0,
+        total: 0,
     };
 
     constructor(props) {
@@ -22,17 +30,17 @@ export class Stats extends React.Component {
     }
 
     render() {
-        console.log(this.props.statistics.get("total"));
-
         return (
             <View style={styles.container}>
-                <View>
-                    <Text> {this.props.statistics.get("todayDone")} </Text>
-                    <Text> / {this.props.statistics.get("todayGoal")} </Text>
+                <View style={styles.stat}>
+                    <Text>{this.props.todayDone}</Text>
+                    <Text>/</Text>
+                    <Text>{this.props.todayGoal}</Text>
                 </View>
-                <View>
-                    <Text> {this.props.statistics.get("totalDone")} </Text>
-                    <Text> / {this.props.statistics.get("total")} </Text>
+                <View style={styles.stat}>
+                    <Text>{this.props.totalDone}</Text>
+                    <Text>/</Text>
+                    <Text>{this.props.total}</Text>
                 </View>
             </View>
         );
@@ -40,11 +48,17 @@ export class Stats extends React.Component {
 }
 
 Stats.propTypes = {
-    statistics: PropTypes.instanceOf(Map),
+    todayDone: PropTypes.number,
+    todayGoal: PropTypes.number,
+    totalDone: PropTypes.number,
+    total: PropTypes.number,
 };
 
 const mapStateToProps = (rootState) => ({
-    statistics: selectStats(rootState),
+    todayDone: selectTodayDone(rootState),
+    todayGoal: selectTodayGoal(rootState),
+    totalDone: selectTotalDone(rootState),
+    total: selectTotal(rootState),
 });
 
 export const StatsConnected = connect(

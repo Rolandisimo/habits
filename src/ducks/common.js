@@ -8,7 +8,10 @@ const HABIT_REMOVE = "habits/HABIT_REMOVE";
 
 // Selectors
 export const selectHabits = (state) => state.get("habits");
-export const selectStats = (state) => state.get("statistics");
+export const selectTodayDone = (state) => state.getIn(["statistics", "todayDone"]);
+export const selectTodayGoal = (state) => state.getIn(["statistics", "todayGoal"]);
+export const selectTotalDone = (state) => state.getIn(["statistics", "totalDone"]);
+export const selectTotal = (state) => state.getIn(["statistics", "total"]);
 
 
 // Initial state

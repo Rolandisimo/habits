@@ -11,7 +11,7 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import { MainScreen } from "./src/components/main-screen/MainScreen";
 import common from "./src/ducks/common";
-import { ViewHabit } from "./src/components/habit/components/ViewHabit";
+import { ViewHabit } from "./src/components/habit/components/view-habit/ViewHabit";
 import styles from "./AppStyles";
 
 const store = createStore(common);
