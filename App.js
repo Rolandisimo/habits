@@ -1,23 +1,27 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+//@ts-check
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
-}
+import React from "react";
+import { Text, View } from "react-native";
+import {
+    DrawerNavigator,
+    StackNavigator,
+} from "react-navigation";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import { Main } from "./src/components/main/Main";
+import common from "./src/ducks/common";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const reducer = combineReducers({
+    common,
 });
+const store = createStore(reducer);
+
+export default class App extends React.PureComponent {
+    render() {
+        return (
+            <Provider store={store}>
+                <Main />
+            </Provider>
+        );
+    }
+}
