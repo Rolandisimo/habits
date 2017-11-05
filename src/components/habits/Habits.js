@@ -32,7 +32,6 @@ export class Habits extends React.Component {
     render() {
         return (
             <VirtualizedList
-                styles={styles.container}
                 getItemCount={this.getHabitsCount}
                 getItem={this.getHabit}
                 keyExtractor={this.getHabitKey}
@@ -42,6 +41,10 @@ export class Habits extends React.Component {
         );
     }
 
+    /**
+     * 
+     * @param {{ id: number, item: { id: number, name: string, period: number, done: boolean }}} habit 
+     */
     renderHabit(habit) {
         const { item } = habit;
         return (
@@ -49,6 +52,7 @@ export class Habits extends React.Component {
                 id={item.id}
                 name={item.name}
                 period={item.period}
+                done={item.done}
                 navigation={this.props.navigation}
             />
         );

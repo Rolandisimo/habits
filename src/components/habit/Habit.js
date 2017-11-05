@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import FAIcon from "react-native-vector-icons/FontAwesome";
 import {
   Text,
   View,
@@ -19,14 +20,37 @@ export class Habit extends React.PureComponent {
         this.onPress = this.onPress.bind(this);
     }
     render() {
-        const { name } = this.props;
+        const { name, done } = this.props;
 
         return (
             <TouchableOpacity
                 style={styles.container}
-                onPress={this.onPress}
+                onPress={!done ? this.onPress : null}
+                activeOpacity={0.5}
             >
-                <Text>{name}</Text>
+                { done ? (
+                    <View style={styles.doneOverlay}>
+                        <FAIcon
+                            name="check"
+                            color="rgba(46, 204, 113, .8)"
+                            size={30}
+                        />
+                    </View>
+                ) : null }
+                <View style={styles.habit}>
+                    <Text
+                        style={styles.habitName}
+                        ellipsizeMode="tail"
+                        numberOfLines={1}
+                    >
+                        {name}
+                    </Text>
+                    <FAIcon
+                        name="ellipsis-h"
+                        color="#e7e7e7"
+                        size={40}
+                    />
+                </View>
             </TouchableOpacity>
         );
     }

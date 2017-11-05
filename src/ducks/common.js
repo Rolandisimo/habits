@@ -25,13 +25,21 @@ const initialState = Map({
     habits: List([
         {
             id: 0,
-            name: "Test habit",
+            name: "Eat Kashka",
             period: 1509792730516, // date time when habit should end
+            done: false,
         },
         {
             id: 1,
-            name: "Test habit #1",
+            name: "Brush teeth with left hand",
             period: 1509792730516, // date time when habit should end
+            done: false,
+        },
+        {
+            id: 2,
+            name: "Make the bed",
+            period: 1509792730516, // date time when habit should end
+            done: true,
         }
     ]),
 });

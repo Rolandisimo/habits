@@ -10,6 +10,7 @@ import { List } from "immutable";
 
 import { HabitsConnected } from "../habits/Habits";
 import { StatsConnected } from "../stats/Stats";
+import { BreakLine } from "../break-line/BreakLine";
 import styles from "./styles";
 
 export class MainScreen extends React.Component {
