@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
+
 import styles from "./styles";
 
 export class Habit extends React.PureComponent {
@@ -25,7 +26,7 @@ export class Habit extends React.PureComponent {
                 style={styles.container}
                 onPress={this.onPress}
             >
-                <Text> {name} </Text>
+                <Text>{name}</Text>
             </TouchableOpacity>
         );
     }

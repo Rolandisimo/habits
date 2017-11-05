@@ -1,4 +1,5 @@
 // @ts-check
+
 import React from "react";
 import {
     Text,
@@ -17,7 +18,7 @@ import {
 } from "../../ducks/common";
 import styles from "./styles";
 
-export class Stats extends React.Component {
+export class Stats extends React.PureComponent {
     static defaultProps = {
         todayDone: 0,
         todayGoal: 0,
@@ -27,21 +28,24 @@ export class Stats extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.renderStatistic = this.renderStatistic.bind(this);
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.stat}>
-                    <Text>{this.props.todayDone}</Text>
-                    <Text>/</Text>
-                    <Text>{this.props.todayGoal}</Text>
-                </View>
-                <View style={styles.stat}>
-                    <Text>{this.props.totalDone}</Text>
-                    <Text>/</Text>
-                    <Text>{this.props.total}</Text>
-                </View>
+                { this.renderStatistic(this.props.todayDone, this.props.todayGoal) }
+                { this.renderStatistic(this.props.totalDone, this.props.total) }
+            </View>
+        );
+    }
+    renderStatistic(progress, total) {
+        return (
+            <View style={styles.stat}>
+                <Text>{progress}</Text>
+                <Text>/</Text>
+                <Text>{total}</Text>
             </View>
         );
     }

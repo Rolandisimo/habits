@@ -1,15 +1,16 @@
-// @ts-check
+// @flow
 import React from "react";
 import {
-  Text,
-  View,
-  TouchableOpacity,
-  VirtualizedList,
+    Text,
+    View,
+    TouchableOpacity,
+    VirtualizedList,
 } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { List } from "immutable";
+
 import { Habit } from "../habit/Habit";
 import { selectHabits } from "../../ducks/common";
 import styles from "./styles";
@@ -41,10 +42,6 @@ export class Habits extends React.Component {
         );
     }
 
-    /**
-     * 
-     * @param {{index: number, item: { id: number; name: string; period: number }}} habit 
-     */
     renderHabit(habit) {
         const { item } = habit;
         return (
@@ -65,8 +62,8 @@ export class Habits extends React.Component {
         return data.size;
     }
 
-    getHabitKey(data) {
-        return data.id;
+    getHabitKey(habit) {
+        return habit.id;
     }
 }
 
