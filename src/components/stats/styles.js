@@ -23,17 +23,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     padding: 0,
-    fontWeight: "bold",
     alignItems: "center",
   },
   primaryValue: {
     fontSize: 50,
-    fontWeight: -.4,
-
+    fontWeight: "200",
   },
   regularValue: {
     fontSize: 20,
-    fontWeight: -0.6,
+    fontWeight: "100",
   },
   divide: {
     height: containerHeight,
@@ -42,6 +40,6 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: -0.6,
+    fontWeight: "100",
   },
 });
