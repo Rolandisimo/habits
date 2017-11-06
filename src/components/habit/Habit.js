@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
+import { DoneOverlay } from "./components/done-overlay/DoneOverlay";
 import styles from "./styles";
 
 export class Habit extends React.PureComponent {
@@ -28,15 +29,7 @@ export class Habit extends React.PureComponent {
                 onPress={!done ? this.onPress : null}
                 activeOpacity={0.5}
             >
-                { done ? (
-                    <View style={styles.doneOverlay}>
-                        <FAIcon
-                            name="check"
-                            color="rgba(46, 204, 113, .8)"
-                            size={30}
-                        />
-                    </View>
-                ) : null }
+                <DoneOverlay done={done} />
                 <View style={styles.habit}>
                     <Text
                         style={styles.habitName}

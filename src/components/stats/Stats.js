@@ -35,25 +35,21 @@ export class Stats extends React.PureComponent {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.statisticContainer}>
-                    {
-                        this.renderStatistic(
-                            "Today's progress",
-                            this.props.todayDone,
-                            this.props.todayGoal,
-                        )
-                    }
-                </View>
+                {
+                    this.renderStatistic(
+                        "Today's progress",
+                        this.props.todayDone,
+                        this.props.todayGoal,
+                    )
+                }
                 <View style={styles.divide} />
-                <View style={styles.statisticContainer}>
-                    {
-                        this.renderStatistic(
-                            "Total progress",
-                            this.props.totalDone,
-                            this.props.total,
-                        )
-                    }
-                </View>
+                {
+                    this.renderStatistic(
+                        "Total progress",
+                        this.props.totalDone,
+                        this.props.total,
+                    )
+                }
             </View>
         );
     }
