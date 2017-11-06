@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 
 import { Map } from "immutable";
 
-import { 
+import {
     selectTodayDone,
     selectTodayGoal,
     selectTotalDone,
@@ -53,6 +53,7 @@ export class Stats extends React.PureComponent {
             </View>
         );
     }
+
     renderStatistic(title, progress, total) {
         return (
             <View style={styles.statisticContainer}>
