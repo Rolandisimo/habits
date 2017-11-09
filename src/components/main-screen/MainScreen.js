@@ -11,6 +11,7 @@ import { List } from "immutable";
 import { HabitsConnected } from "../habits/Habits";
 import { StatsConnected } from "../stats/Stats";
 import { BreakLine } from "../break-line/BreakLine";
+import { NewHabitButton } from "../new-habit-button/NewHabitButton";
 import styles from "./styles";
 
 export class MainScreen extends React.Component {
@@ -19,6 +20,9 @@ export class MainScreen extends React.Component {
             <View style={styles.container}>
                 <StatsConnected />
                 <HabitsConnected
+                    navigation={this.props.navigation}
+                />
+                <NewHabitButton
                     navigation={this.props.navigation}
                 />
             </View>
