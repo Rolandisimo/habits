@@ -1,4 +1,4 @@
-// @ts-check
+//@ts-check
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -6,12 +6,5 @@ export default StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         padding: 20,
-    },
-    editIcon: {
-        position: "absolute",
-        top: 10,
-        right: 10,
-        zIndex: 10,
-        backgroundColor: "transparent",
     },
 });
