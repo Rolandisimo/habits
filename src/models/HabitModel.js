@@ -21,8 +21,17 @@ export default class HabitModel {
   }
 
 
-  async update() {
+  async update(habit) {
+    new_habit = HabitModel.copyHabitWithAvailableKeys(habit);
 
+    try {
+      await AsyncStorage.mergeItem(new_habit.id, new_habit);
+      return true;
+    } catch (error) {
+      console.error("HabitModel.update() error");
+      console.error(error);
+      return false;
+    }
   }
 
 
