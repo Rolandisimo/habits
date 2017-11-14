@@ -4,16 +4,37 @@ export default class HabitModel {
 
   static AVAILABLE_KEYS = ["name"];
 
-  constructor() { }
+  constructor(id) {
+    this.habit = HabitModel.initDummyObject();
+    this.loaded = false;
+
+    HabitModel.getHabitObject(id).then((habit) => {
+      this.habit = habit;
+      this.loaded = true;
+      console.log(this.habit);
+    });
+  }
+
+
+  async destroy() {
+    try {
+      await AsyncStorage.removeItem(this.habit.id);
+      return true;
+    } catch (error) {
+      console.error("HabitModel.destroy() error");
+      console.error(error);
+      return false;
+    }
+  }
+
 
   static async create(habit) {
-    HabitModel.listIds();
     new_habit = HabitModel.copyHabitWithAvailableKeys(habit);
 
     try {
       await AsyncStorage.setItem(
         `habit:${new_habit.id}`,
-        JSON.stringify(new_habit)
+        JSON.stringify(new_habit),
       );
     } catch (error) {
       console.error("HabitModel.create() error");
@@ -23,6 +44,7 @@ export default class HabitModel {
     // Return object
     return habit;
   }
+
 
   static copyHabitWithAvailableKeys(habit) {
     new_habit = {};
@@ -34,9 +56,21 @@ export default class HabitModel {
     return new_habit;
   }
 
+
+  static initDummyObject() {
+    return {
+      name: "",
+    };
+  }
+
+
+  static async getHabitObject(id) {
+    return await AsyncStorage.getItem(id);
+  }
+
+
   static async listIds() {
     try {
-      console.log(await AsyncStorage.getItem("habit:1510667062"));
       const keys = await AsyncStorage.getAllKeys();
       console.log(keys);
     } catch (error) {
@@ -44,5 +78,4 @@ export default class HabitModel {
       console.error(error);
     }
   }
-
 }
