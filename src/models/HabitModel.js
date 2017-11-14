@@ -4,15 +4,8 @@ export default class HabitModel {
 
   static AVAILABLE_KEYS = ["name"];
 
-  constructor(id) {
-    this.habit = HabitModel.initDummyObject();
-    this.loaded = false;
-
-    HabitModel.getHabitObject(id).then((habit) => {
-      this.habit = habit;
-      this.loaded = true;
-      console.log(this.habit);
-    });
+  constructor(habit) {
+    this.habit = habit;
   }
 
 
@@ -25,6 +18,18 @@ export default class HabitModel {
       console.error(error);
       return false;
     }
+  }
+
+
+  async update() {
+
+  }
+
+
+  // Returns a Promise.
+  static async findById(id) {
+    const habit = await AsyncStorage.getItem(id);
+    return new HabitModel(habit);
   }
 
 
@@ -61,11 +66,6 @@ export default class HabitModel {
     return {
       name: "",
     };
-  }
-
-
-  static async getHabitObject(id) {
-    return await AsyncStorage.getItem(id);
   }
 
 
