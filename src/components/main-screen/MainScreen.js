@@ -18,6 +18,9 @@ export class MainScreen extends React.Component {
                 <NewHabitButton
                     navigation={this.props.navigation}
                 />
+                <NewHabitButton
+                    navigation={this.props.navigation}
+                />
             </View>
         );
     }
