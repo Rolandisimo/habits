@@ -2,15 +2,10 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import {
-    Text,
-    View,
-} from "react-native";
-import { List } from "immutable";
+import { View } from "react-native";
 
 import { HabitsConnected } from "../habits/Habits";
 import { StatsConnected } from "../stats/Stats";
-import { BreakLine } from "../break-line/BreakLine";
 import { NewHabitButton } from "../new-habit-button/NewHabitButton";
 import styles from "./styles";
 
@@ -19,7 +14,8 @@ export class MainScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <StatsConnected />
-                <HabitsConnected
+                <HabitsConnected />
+                <NewHabitButton
                     navigation={this.props.navigation}
                 />
                 <NewHabitButton

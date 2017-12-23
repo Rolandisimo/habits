@@ -25,14 +25,17 @@ export class NewHabitButton extends React.PureComponent {
     render() {
         return (
             <View style={styles.container}>
-                <ActionButton buttonColor="rgba(231,76,60,1)" onPress={throttle(this.onPress, 500, { trailing: false })} />
+                <ActionButton
+                    buttonColor="rgba(231,76,60,1)"
+                    onPress={throttle(this.onPress, 500, { trailing: false })}
+                />
             </View>
         );
     }
 
     onPress() {
-        const { navigation } = this.props;
-        navigation.navigate("CreateHabit");
+        // TODO: Handle params with store or make additional screens
+        this.props.navigation.navigate("CreateHabit", { isNew: true, isEditing: false });
     }
 }
 

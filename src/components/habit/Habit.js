@@ -5,12 +5,13 @@ import PropTypes from "prop-types";
 
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import {
-  Text,
-  View,
-  TouchableOpacity,
+    Text,
+    View,
+    TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
 
+import { selectNavigation } from "../../ducks/common";
 import { DoneOverlay } from "./components/done-overlay/DoneOverlay";
 import styles from "./styles";
 
@@ -20,8 +21,19 @@ export class Habit extends React.PureComponent {
 
         this.onPress = this.onPress.bind(this);
     }
+    shouldComponentUpdate(nextProps) {
+        const oldProps = this.props.habit;
+        const newProps = nextProps.habit;
+
+        return false
+            || oldProps.name !== newProps.name
+            || oldProps.period !== newProps.period
+            || oldProps.notificationTime !== newProps.notificationTime
+            || oldProps.done !== newProps.done
+        ;
+    }
     render() {
-        const { name, done } = this.props;
+        const { name, done } = this.props.habit;
 
         return (
             <TouchableOpacity
@@ -48,27 +60,25 @@ export class Habit extends React.PureComponent {
         );
     }
     onPress() {
-        const {
-            id,
-            name,
-            period,
-        } = this.props;
-        this.props.navigation.navigate(
-            "ViewHabit",
-            { id, name, period },
-        )
+        this.props.navigation.navigate("ViewHabit", { isNew: false, isEditing: false, habit: this.props.habit });
     }
 }
 
+const mapStateToProps = state=> ({
+    navigation: selectNavigation(state),
+});
+
+export const HabitConnected = connect(
+    mapStateToProps,
+    {},
+)(Habit);
+
 Habit.propTypes = {
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    period: PropTypes.number.isRequired,
-    navigation: PropTypes.shape({
-        navigate: PropTypes.func,
-        state: PropTypes.shape({
-            key: PropTypes.string,
-            routeName: PropTypes.string,
-        }),
+    habit: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        period: PropTypes.number.isRequired,
+        notificationTime: PropTypes.string.isRequired,
+        done: PropTypes.bool.isRequired,
     }),
 };

@@ -1,10 +1,17 @@
-//@ts-check
+// @ts-check
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     container: {
-        borderWidth: 1,
+        flex: 1,
+        flexDirection: "column",
         padding: 20,
-        margin: 10,
+    },
+    editIcon: {
+        position: "absolute",
+        top: 10,
+        right: 10,
+        zIndex: 10,
+        backgroundColor: "transparent",
     },
 });

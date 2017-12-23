@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     container: {
-        borderWidth: 1,
+        flex: 1,
+        flexDirection: "column",
         padding: 20,
-        margin: 10,
     },
 });

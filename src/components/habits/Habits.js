@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 
 import { List } from "immutable";
 
-import { Habit } from "../habit/Habit";
+import { HabitConnected } from "../habit/Habit";
 import { selectHabits } from "../../ducks/common";
 import styles from "./styles";
 
@@ -43,19 +43,10 @@ export class Habits extends React.Component {
 
     /**
      * 
-     * @param {{ id: number, item: { id: number, name: string, period: number, done: boolean }}} habit 
+     * @param {{ id: number, item: { id: number, name: string, period: number, notificationTime: string, done: boolean }}} habit 
      */
     renderHabit(habit) {
-        const { item } = habit;
-        return (
-            <Habit
-                id={item.id}
-                name={item.name}
-                period={item.period}
-                done={item.done}
-                navigation={this.props.navigation}
-            />
-        );
+        return <HabitConnected habit={habit.item} />;
     }
 
     getHabit(data, i) {
@@ -71,17 +62,6 @@ export class Habits extends React.Component {
     }
 }
 
-Habits.propTypes = {
-    habits: PropTypes.instanceOf(List),
-    navigation: PropTypes.shape({
-        navigate: PropTypes.func,
-        state: PropTypes.shape({
-            key: PropTypes.string,
-            routeName: PropTypes.string,
-        }),
-    }),
-};
-
 const mapStateToProps = (rootState) => ({
     habits: selectHabits(rootState),
 });
@@ -90,3 +70,7 @@ export const HabitsConnected = connect(
     mapStateToProps,
     undefined,
 )(Habits);
+
+Habits.propTypes = {
+    habits: PropTypes.instanceOf(List),
+};
