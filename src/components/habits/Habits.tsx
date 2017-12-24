@@ -1,26 +1,26 @@
-// @flow
-import React from "react";
-import {
-    Text,
-    View,
-    TouchableOpacity,
-    VirtualizedList,
-} from "react-native";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-
 import { List } from "immutable";
-
+import React from "react";
+import { VirtualizedList } from "react-native";
+import { connect } from "react-redux";
 import { HabitConnected } from "../habit/Habit";
 import { selectHabits } from "../../ducks/common";
-import styles from "./styles";
+import { HabitItemProps } from "../habit/types";
 
-export class Habits extends React.Component {
+export interface ListItem {
+    id: number;
+    item: HabitItemProps;
+}
+
+export interface HabitsProps {
+    habits: List<HabitItemProps>;
+}
+
+export class Habits extends React.Component<HabitsProps, {}> {
     static defaultProps = {
         habits: List([])
     };
 
-    constructor(props) {
+    constructor(props: HabitsProps) {
         super(props);
 
         this.renderHabit = this.renderHabit.bind(this);
@@ -41,36 +41,28 @@ export class Habits extends React.Component {
         );
     }
 
-    /**
-     * 
-     * @param {{ id: number, item: { id: number, name: string, period: number, notificationTime: string, done: boolean }}} habit 
-     */
-    renderHabit(habit) {
+    renderHabit(habit: ListItem) {
         return <HabitConnected habit={habit.item} />;
     }
 
-    getHabit(data, i) {
+    getHabit(data: List<HabitItemProps>, i: number) {
         return data.get(i);
     }
 
-    getHabitsCount(data) {
+    getHabitsCount(data: List<HabitItemProps>) {
         return data.size;
     }
 
-    getHabitKey(habit) {
+    getHabitKey(habit: HabitItemProps) {
         return habit.id;
     }
 }
 
-const mapStateToProps = (rootState) => ({
-    habits: selectHabits(rootState),
+const mapStateToProps = (state: any): HabitsProps => ({
+    habits: selectHabits(state),
 });
 
-export const HabitsConnected = connect(
+export const HabitsConnected = connect<HabitsProps, {}>(
     mapStateToProps,
-    undefined,
+    {},
 )(Habits);
-
-Habits.propTypes = {
-    habits: PropTypes.instanceOf(List),
-};

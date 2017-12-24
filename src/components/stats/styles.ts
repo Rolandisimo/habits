@@ -7,9 +7,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'rgba(78,205,196, .7)',
     justifyContent: 'center',
-    shadowColor: "rgba(189, 195, 199, 0.9)",
+    shadowColor: "rgba(189, 195, 199, 0.9)", // TODO: Move colors to styles/consts.ts
     shadowOpacity: 1.0,
-    shadowOffset: { height: 5 },
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
     zIndex: 10,
     height: containerHeight,
   },

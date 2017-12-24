@@ -1,4 +1,3 @@
-//@ts-check
 import { StyleSheet, Dimensions } from "react-native";
 
 export default StyleSheet.create({
@@ -13,6 +12,7 @@ export default StyleSheet.create({
         shadowColor: "rgba(189, 195, 199, 0.7)",
         shadowOpacity: 1.0,
         shadowOffset: {
+            width: 0,
             height: 2,
         },
     },

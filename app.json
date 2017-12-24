@@ -9,9 +9,15 @@
       "color": "#e7e7e7" 
     },
     "loading": {
-      "icon": "./src/assets/time.png", // Must be a png
-      // "backgroundImage": "",
+      "icon": "./src/assets/time.png",
       "backgroundColor": "#00BCD4"
+    },
+    "packagerOpts": {
+      "sourceExts": [
+        "ts",
+        "tsx"
+      ],
+      "transformer": "node_modules/react-native-typescript-transformer/index.js"
     }
   }
 }

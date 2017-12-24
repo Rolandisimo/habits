@@ -1,8 +1,4 @@
-//@ts-check
-
 import React from "react";
-import PropTypes from "prop-types";
-
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import {
     Text,
@@ -13,15 +9,25 @@ import { connect } from "react-redux";
 
 import { selectNavigation } from "../../ducks/common";
 import { DoneOverlay } from "./components/done-overlay/DoneOverlay";
+import { Navigation } from "../../types/General";
+import { HabitItemProps } from "./types";
 import styles from "./styles";
 
-export class Habit extends React.PureComponent {
-    constructor(props) {
+export interface HabitOwnProps {
+    habit: HabitItemProps;
+}
+export interface HabitStateProps {
+    navigation: Navigation;
+}
+export type HabitProps = HabitStateProps & HabitOwnProps; 
+
+export class Habit extends React.Component<HabitProps, {}> {
+    constructor(props: HabitProps) {
         super(props);
 
         this.onPress = this.onPress.bind(this);
     }
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: HabitProps) {
         const oldProps = this.props.habit;
         const newProps = nextProps.habit;
 
@@ -38,7 +44,7 @@ export class Habit extends React.PureComponent {
         return (
             <TouchableOpacity
                 style={styles.container}
-                onPress={!done ? this.onPress : null}
+                onPress={!done ? this.onPress : undefined}
                 activeOpacity={0.5}
             >
                 <DoneOverlay done={done} />
@@ -64,21 +70,12 @@ export class Habit extends React.PureComponent {
     }
 }
 
-const mapStateToProps = state=> ({
+// TODO: Add types
+const mapStateToProps = (state: any): HabitStateProps => ({
     navigation: selectNavigation(state),
 });
 
-export const HabitConnected = connect(
+export const HabitConnected = connect<HabitStateProps, {}>(
     mapStateToProps,
     {},
 )(Habit);
-
-Habit.propTypes = {
-    habit: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        period: PropTypes.number.isRequired,
-        notificationTime: PropTypes.string.isRequired,
-        done: PropTypes.bool.isRequired,
-    }),
-};

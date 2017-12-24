@@ -10,6 +10,7 @@ const shadowStyles = {
     shadowColor: "rgba(189, 195, 199, 0.7)",
     shadowOpacity: 1.0,
     shadowOffset: {
+        width: 0,
         height: 2,
     },
 };
