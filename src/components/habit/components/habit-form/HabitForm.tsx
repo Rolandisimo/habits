@@ -1,33 +1,59 @@
-//@ts-check
-
 import React from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import {
   Text,
   View,
   TextInput,
   ScrollView,
   Keyboard,
+  EmitterSubscription,
 } from "react-native";
 import DatePicker from "react-native-datepicker"
-import { periods, getSelectedPeriod } from "./utils";
 import { HabitPeriodFormGroup } from "./HabitPeriodFormGroup";
 import { SaveButton } from "../save-button/SaveButton";
-import { EditButtonConnected } from "../edit-button/EditButton";
+import { EditButton } from "../edit-button/EditButton";
 import styles, { datePickerCustomStyles} from "./styles";
-import { editHabitActionCreator, selectNavigation } from "../../../../ducks/common";
+import {
+    addHabitActionCreator,
+    editHabitActionCreator,
+    selectNavigation,
+} from "../../../../ducks/common";
 import { routes } from "../../../../../routes";
+import { HabitItemProps } from "../../types";
+import { Navigation } from "../../../../types/General";
 
-export class HabitForm extends React.Component {
-    state = {
+export interface HabitFormState {
+    isKeyboardOpen: boolean;
+    keyBoardHeight: number;
+    nameValue: string;
+    periodValue: number;
+    notificationTimeValue: string;
+}
+
+export interface HabitFormStateProps {
+    navigation: Navigation;
+} 
+export interface HabitFormDispatchProps {
+    addHabit: typeof addHabitActionCreator;
+    editHabit: typeof editHabitActionCreator;
+} 
+export interface HabitFormOwnProps {
+    habit?: HabitItemProps;
+} 
+export type HabitFormProps = HabitFormOwnProps & HabitFormStateProps & HabitFormDispatchProps;
+
+export class HabitForm extends React.Component<HabitFormProps, HabitFormState> {
+    state: HabitFormState = {
         isKeyboardOpen: false, // determines marginBottom for button wrapper
+        keyBoardHeight: 0,
         nameValue: this.props.habit ? this.props.habit.name : "",
-        periodValue: this.props.habit ? this.props.habit.period : "",
+        periodValue: this.props.habit ? this.props.habit.period : 0,
         notificationTimeValue: this.props.habit ? this.props.habit.notificationTime : "",
     };
-    newHabit = {};
-    constructor(props) {
+    newHabit: HabitItemProps;
+    keyboardDidShowListener: EmitterSubscription;
+    keyboardDidHideListener: EmitterSubscription;
+    constructor(props: HabitFormProps) {
         super(props);
 
         this.onPeriodChange = this.onPeriodChange.bind(this);
@@ -36,6 +62,7 @@ export class HabitForm extends React.Component {
         this.setKeyboardClosed = this.setKeyboardClosed.bind(this);
         this.setKeyboardOpen = this.setKeyboardOpen.bind(this);
         this.onSave = this.onSave.bind(this);
+        this.onEdit = this.onEdit.bind(this);
     }
     componentWillMount () {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.setKeyboardOpen);
@@ -53,8 +80,8 @@ export class HabitForm extends React.Component {
         } = this.props;
         // Navigation params
         const params = navigation.state.params;
-        const isNew =  params && params.isNew;
-        const isEditing =  params && params.isEditing;
+        const isNew: boolean =  params && params.isNew;
+        const isEditing: boolean =  params && params.isEditing;
         const isEditingState = isNew || isEditing
 
         const DateComponent = (
@@ -77,13 +104,14 @@ export class HabitForm extends React.Component {
             name: this.state.nameValue,
             period: this.state.periodValue,
             notificationTime: this.state.notificationTimeValue,
+            done: false,
         };
         const isValidHabit = isNew || (this.newHabit.name && this.newHabit.notificationTime && this.newHabit.period);
         const buttonWrapperStyles = [
             styles.buttonWrapper,
-            this.state.isKeyboardOpen && {
+            this.state.isKeyboardOpen ? {
                 marginBottom: this.state.keyBoardHeight + 20 | 0,
-            },
+            } : null,
         ];
         const habitNameStyles = [styles.input, isEditingState ? { backgroundColor: "#fff" } : null];
 
@@ -112,23 +140,23 @@ export class HabitForm extends React.Component {
                 <View style={buttonWrapperStyles}>
                     { isNew || isEditingState
                         ? <SaveButton onPress={this.onSave} disabled={!isValidHabit} />
-                        : <EditButtonConnected habit={habit} />
+                        : <EditButton onPress={this.onEdit} />
                     }
                 </View>
             </ScrollView>
         );
     }
-    onPeriodChange(periodValue) {
+    onPeriodChange(periodValue: number) {
         this.setState({
             periodValue,
         });
     }
-    onDateChange(time) {
+    onDateChange(time: string) {
         this.setState({
             notificationTimeValue: time,
         });
     }
-    onNameChange(value) {
+    onNameChange(value: string) {
         this.setState({
             nameValue: value,
         });
@@ -138,7 +166,8 @@ export class HabitForm extends React.Component {
             isKeyboardOpen: false,
         });
     }
-    setKeyboardOpen(e) {
+    // TODO: Add typings for event
+    setKeyboardOpen(e: any) {
         if (e.endCoordinates) {
             this.setState({
                 isKeyboardOpen: true,
@@ -147,29 +176,36 @@ export class HabitForm extends React.Component {
         }
     }
     onSave() {
-        this.props.editHabit(this.newHabit);
+        // Navigation params
+        const params = this.props.navigation.state.params;
+        if (params && params.isNew) {
+            this.props.addHabit(this.newHabit);
+        } else {
+            this.props.editHabit(this.newHabit);
+        }
         this.props.navigation.navigate(routes.MainScreen);
-        this.newHabit = {};
+    }
+    onEdit() {
+        this.props.navigation.navigate(
+            routes.CreateHabit,
+            {
+                isNew: false,
+                isEditing: true,
+                habit: this.props.habit,
+            },
+        );
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
     navigation: selectNavigation(state),
 });
 const mapDispatchToProps = {
+    addHabit: addHabitActionCreator,
     editHabit: editHabitActionCreator,
 };
 
-export const HabitFormConnected = connect(
+export const HabitFormConnected = connect<HabitFormStateProps, HabitFormDispatchProps>(
     mapStateToProps,
     mapDispatchToProps,
 )(HabitForm);
-
-HabitForm.propTypes = {
-    habit: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        period: PropTypes.number.isRequired,
-        notificationTime: PropTypes.string.isRequired,
-    }),
-};

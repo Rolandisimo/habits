@@ -1,13 +1,13 @@
-// @ts-check
-
 import React from "react";
 import { View } from "react-native";
-import PropTypes from "prop-types";
 import FAIcon from "react-native-vector-icons/FontAwesome";
-
 import styles from "./styles";
 
-export class DoneOverlay extends React.PureComponent {
+export interface DoneOverlayProps {
+    done: boolean;
+}
+
+export class DoneOverlay extends React.PureComponent<DoneOverlayProps, {}> {
     render() {
         if (!this.props.done) {
             return null;
@@ -23,8 +23,3 @@ export class DoneOverlay extends React.PureComponent {
         );
     }
 }
-
-DoneOverlay.propTypes = {
-    done: PropTypes.bool.isRequired,
-}
-

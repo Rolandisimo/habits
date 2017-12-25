@@ -1,6 +1,9 @@
-// @ts-check
+export interface Period {
+    label: string;
+    value: number;
+}
 
-export const periods = [
+export const periods: Period[] = [
     {
         label: "3 weeks",
         value: 1814000000,
@@ -19,22 +22,18 @@ export const periods = [
     },
 ];
 
-/**
- * 
- * @param {number} periodTimeframe 
- * @returns {number}
- */
-export function getSelectedPeriod(periodTimeframe) {
+export function getSelectedPeriod(periodTimeframe: number): number {
+    // Will select 0 index in <RadioForm/>
+    let selectedPeriod = 0;
     if (!periodTimeframe) {
-        // Will select 0 index in <RadioForm/>
-        return 0;
+        return selectedPeriod;
     }
 
-    let selectedPeriod;
     periods.forEach((period, i) => {
         if (period.value === periodTimeframe) {
             selectedPeriod = i;
         };
     });
+
     return selectedPeriod;
 };

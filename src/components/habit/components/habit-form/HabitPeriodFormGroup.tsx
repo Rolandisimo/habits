@@ -4,18 +4,32 @@ import {
     View,
     TextInput,
 } from "react-native";
-import PropTypes from "prop-types";
 import RadioForm from 'react-native-simple-radio-button';
 import { periods, getSelectedPeriod } from "./utils";
 import styles from "./styles";
 
-export class HabitPeriodFormGroup extends React.PureComponent {
+
+export interface HabitPeriodFormGroupDefaultProps {
+    period: number,
+    isEditing: boolean,
+}
+export interface HabitPeriodFormGroupProps extends Partial<HabitPeriodFormGroupDefaultProps> {
+    onPress: (periodValue: number) => void,
+}
+
+export type HabitPeriodFormGroupPropsWithDefaults = HabitPeriodFormGroupProps & HabitPeriodFormGroupDefaultProps;
+
+export class HabitPeriodFormGroup extends React.PureComponent<HabitPeriodFormGroupProps, {}> {
+    public static defaultProps: HabitPeriodFormGroupDefaultProps = {
+        period: 0,
+        isEditing: false,
+    }
     render() {
         const {
             period,
             isEditing,
             onPress,
-        } = this.props;
+        } = this.props as HabitPeriodFormGroupPropsWithDefaults;
         const periodObject = periods[getSelectedPeriod(period)];
         const PeriodBodyComponent = !!isEditing
         ? (
@@ -43,10 +57,3 @@ export class HabitPeriodFormGroup extends React.PureComponent {
         );
     }
 }
-
-HabitPeriodFormGroup.propTypes = {
-    onPress: PropTypes.func.isRequired,
-    period: PropTypes.number.isRequired,
-    isEditing: PropTypes.bool,
-};
-

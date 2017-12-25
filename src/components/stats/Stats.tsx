@@ -1,4 +1,3 @@
-// @ts-check
 
 import React from "react";
 import {
@@ -6,10 +5,6 @@ import {
     View,
 } from "react-native";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-
-import { Map } from "immutable";
-
 import {
     selectTodayDone,
     selectTodayGoal,
@@ -18,7 +13,14 @@ import {
 } from "../../ducks/common";
 import styles from "./styles";
 
-export class Stats extends React.PureComponent {
+export interface StatsProps {
+    todayDone: number;
+    todayGoal: number;
+    totalDone: number;
+    total: number;
+}
+
+export class Stats extends React.PureComponent<StatsProps, {}> {
     static defaultProps = {
         todayDone: 0,
         todayGoal: 0,
@@ -26,7 +28,7 @@ export class Stats extends React.PureComponent {
         total: 0,
     };
 
-    constructor(props) {
+    constructor(props: StatsProps) {
         super(props);
 
         this.renderStatistic = this.renderStatistic.bind(this);
@@ -54,7 +56,7 @@ export class Stats extends React.PureComponent {
         );
     }
 
-    renderStatistic(title, progress, total) {
+    renderStatistic(title: string, progress: number, total: number) {
         return (
             <View style={styles.statisticContainer}>
                 <Text style={styles.title}>{title}</Text>
@@ -68,21 +70,14 @@ export class Stats extends React.PureComponent {
     }
 }
 
-Stats.propTypes = {
-    todayDone: PropTypes.number,
-    todayGoal: PropTypes.number,
-    totalDone: PropTypes.number,
-    total: PropTypes.number,
-};
-
-const mapStateToProps = (rootState) => ({
-    todayDone: selectTodayDone(rootState),
-    todayGoal: selectTodayGoal(rootState),
-    totalDone: selectTotalDone(rootState),
-    total: selectTotal(rootState),
+const mapStateToProps = (state: any): StatsProps => ({
+    todayDone: selectTodayDone(state),
+    todayGoal: selectTodayGoal(state),
+    totalDone: selectTotalDone(state),
+    total: selectTotal(state),
 });
 
-export const StatsConnected = connect(
+export const StatsConnected = connect<StatsProps, {}>(
     mapStateToProps,
-    undefined,
+    {},
 )(Stats);
