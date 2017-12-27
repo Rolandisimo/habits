@@ -120,17 +120,10 @@ export type ReducerActions =
 export function reducer(state = initialState, action: ReducerActions) {
     switch (action.type) {
         case HABIT_ADD: {
-            let newHabits: List<HabitItemProps>;
-            // const newHabit =
-            // console.log(action.payload);
-            HabitModel.create(action.payload).then((response) => {
-                console.log(response);
-                newHabits = List([...state.habits.toArray(), response]);
-            });
-
-            const habits = List([...state.habits.toArray(), ]);
-            // console.log("common", habits)
-            return { ...state, habits };
+            return {
+                ...state,
+                habits: List([...state.habits.toArray(), action.payload]),
+            };
         }
         case HABIT_EDIT: {
             // TODO: Fix typings

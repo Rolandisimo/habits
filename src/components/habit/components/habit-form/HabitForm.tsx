@@ -14,10 +14,12 @@ import { SaveButton } from "../save-button/SaveButton";
 import { EditButton } from "../edit-button/EditButton";
 import styles, { datePickerCustomStyles} from "./styles";
 import {
-    addHabitActionCreator,
     editHabitActionCreator,
     selectNavigation,
 } from "../../../../ducks/common";
+import {
+    addHabitRestActionCreator,
+} from "../../../../middleware/habitRest";
 import { routes } from "../../../../../routes";
 import { HabitItemProps } from "../../types";
 import { Navigation } from "../../../../types/General";
@@ -35,7 +37,7 @@ export interface HabitFormStateProps {
     navigation: Navigation;
 }
 export interface HabitFormDispatchProps {
-    addHabit: typeof addHabitActionCreator;
+    addHabit: typeof addHabitRestActionCreator;
     editHabit: typeof editHabitActionCreator;
 }
 export interface HabitFormOwnProps {
@@ -108,6 +110,7 @@ export class HabitForm extends React.Component<HabitFormProps, HabitFormState> {
             period: this.state.periodValue,
             notificationTime: this.state.notificationTimeValue,
             done: false,
+            createdAt: Date.now(),
         };
         const isValidHabit = isNew || (this.newHabit.name && this.newHabit.notificationTime && this.newHabit.period);
         const buttonWrapperStyles = [
@@ -206,7 +209,7 @@ const mapStateToProps = (state: any) => ({
     navigation: selectNavigation(state),
 });
 const mapDispatchToProps = {
-    addHabit: addHabitActionCreator,
+    addHabit: addHabitRestActionCreator,
     editHabit: editHabitActionCreator,
 };
 
