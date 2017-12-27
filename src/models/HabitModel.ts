@@ -50,9 +50,6 @@ export class HabitModel {
             createdAt: Date.now(),
         };
 
-        console.log(newHabit);
-        console.log(JSON.stringify(newHabit));
-
         try {
             await AsyncStorage.setItem(
                 `habit:${newHabit.id}`,
@@ -72,13 +69,27 @@ export class HabitModel {
         };
     }
 
+    static async all() {
+        const keys = await HabitModel.listIds();
+        const multiGetElements = await AsyncStorage.multiGet(keys, (err, stores) => {
+            return stores;
+        });
+
+        const elements = multiGetElements.map((result, i, store) => {
+            return JSON.parse(store[i][1]);
+        });
+
+        return elements;
+    }
+
     static async listIds() {
         try {
-            // const keys = await AsyncStorage.getAllKeys();
-            // console.log(keys);
+            const keys = await AsyncStorage.getAllKeys();
+            return keys;
         } catch (error) {
             console.error("HabitModel.lastId() error");
             console.error(error);
+            return [];
         }
     }
 }

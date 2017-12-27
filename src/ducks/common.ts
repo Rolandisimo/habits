@@ -5,6 +5,7 @@ import { HabitItemProps } from "../components/habit/types";
 import { HabitModel } from "../models/HabitModel";
 
 // Constants
+const HABITS_INIT = "habits/HABITS_INIT";
 const HABIT_ADD = "habits/HABIT_ADD";
 const HABIT_EDIT = "habits/HABIT_EDIT";
 const HABIT_DELETE = "habits/HABIT_REMOVE";
@@ -32,6 +33,22 @@ export function addHabitAction(habit: HabitItemProps): AddHabitAction {
 export function addHabitActionCreator(habit: HabitItemProps) {
     return (dispatch: Dispatch<any>) => {
         dispatch(addHabitAction(habit));
+    };
+}
+
+export interface InitHabitsAction {
+    type: typeof HABITS_INIT;
+    payload: HabitItemProps[],
+}
+export function initHabitsAction(habits: HabitItemProps[]): InitHabitsAction {
+    return {
+        type: HABITS_INIT,
+        payload: habits,
+    }
+};
+export function initHabitActionCreator(habits: HabitItemProps[]) {
+    return (dispatch: Dispatch<any>) => {
+        dispatch(initHabitsAction(habits));
     };
 }
 
@@ -110,6 +127,7 @@ const initialState = {
 
 // TODO: Add Action union types
 export type ReducerActions =
+    | InitHabitsAction
     | AddHabitAction
     | EditHabitAction
     | DeleteHabitAction
@@ -119,6 +137,14 @@ export type ReducerActions =
 // Reducer
 export function reducer(state = initialState, action: ReducerActions) {
     switch (action.type) {
+        case HABITS_INIT: {
+            console.log(action.payload);
+
+            return {
+                ...state,
+                habits: action.payload,
+            }
+        }
         case HABIT_ADD: {
             return {
                 ...state,

@@ -10,6 +10,7 @@ import { habitRestMiddleware } from "./middleware/habitRest";
 import { ViewHabit } from "./components/habit/components/view-habit/ViewHabit";
 import { CreateHabit } from "./components/habit/components/create-habit/CreateHabit";
 import { Navigation } from "./types/General";
+import { initHabitRestActionCreator } from "./middleware/habitRest";
 
 const store = createStore(
     commonReducer as any, // TODO: Fix incompatible type
@@ -18,6 +19,8 @@ const store = createStore(
         habitRestMiddleware,
     ),
 );
+
+store.dispatch(initHabitRestActionCreator());
 
 export interface NavigationOptions {
     navigation: Navigation,
