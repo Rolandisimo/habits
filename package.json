@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@types/lodash": "^4.14.91",
     "@types/react": "^16.0.31",
     "@types/react-native": "^0.51.6",
+    "@types/react-native-datepicker": "^1.6.0",
     "@types/react-navigation": "^1.0.26",
     "@types/react-redux": "^5.0.14",
     "jest-expo": "^22.0.0",

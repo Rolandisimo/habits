@@ -70,9 +70,12 @@ export class HabitForm extends React.Component<HabitFormProps, HabitFormState> {
     componentWillMount () {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.setKeyboardOpen);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.setKeyboardClosed);
-        this.setState({
-            notificationTimeValue: "04:20",
-        })
+
+        if (!this.state.notificationTimeValue) {
+            this.setState({
+                notificationTimeValue: "18:00",
+            })
+        }
     }
     componentWillUnmount () {
         this.keyboardDidShowListener.remove();

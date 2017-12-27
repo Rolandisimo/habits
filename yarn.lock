@@ -60,6 +60,17 @@
     component-type "^1.2.1"
     join-component "^1.1.0"
 
+"@types/lodash@^4.14.91":
+  version "4.14.91"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.91.tgz#794611b28056d16b5436059c6d800b39d573cd3a"
+
+"@types/react-native-datepicker@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-datepicker/-/react-native-datepicker-1.6.0.tgz#afc4c534c6a85a09bf46c57b787e5b50758f34b6"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native@*", "@types/react-native@^0.51.6":
   version "0.51.7"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.51.7.tgz#4efed51d1267a288a7fba12d1ee72f67395a95e1"

@@ -18,10 +18,10 @@ export class NewHabitButton extends React.PureComponent<NewHabitButtonProps, {}>
 
     render() {
         return (
-                <ActionButton
-                    buttonColor="rgba(231,76,60,1)"
-                    onPress={throttle(this.onPress, 500, { trailing: false })}
-                />
+            <ActionButton
+                buttonColor="rgba(231,76,60,1)"
+                onPress={throttle(this.onPress, 500, { trailing: false })}
+            />
         );
     }
 
@@ -36,5 +36,6 @@ const mapStateToProps = (state: any): NewHabitButtonProps => ({
 });
 
 export const NewHabitButtonConnected = connect<NewHabitButtonProps, {}>(
-    mapStateToProps
+    mapStateToProps,
+    {},
 )(NewHabitButton);

@@ -9,7 +9,6 @@ import {
     initHabitActionCreator,
 } from "../ducks/common";
 import { HabitModel } from "../models/HabitModel";
-import { List } from 'immutable';
 
 export const HABIT_ADD = "habitRest/HABIT_ADD";
 export const HABITS_INIT = "habitRest/HABITS_INIT";
@@ -46,6 +45,7 @@ export function initHabitRestActionCreator() {
 }
 
 
+// TODO: Add typings, bitch
 export interface PartialState {
 }
 
@@ -54,7 +54,6 @@ export type HabitRestMiddlewareAction =
     | InitHabitsRestAction
 ;
 
-// TODO: Add typings, bitch
 export const habitRestMiddleware = (<S extends PartialState>({
     dispatch,
     getState,

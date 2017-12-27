@@ -28,8 +28,11 @@ export class Habits extends React.Component<HabitsProps, {}> {
         this.getHabitKey = this.getHabitKey.bind(this);
         this.getHabit = this.getHabit.bind(this);
     }
-    
     render() {
+        if (!this.props.habits.size) {
+            return null;
+        }
+
         return (
             <VirtualizedList
                 getItemCount={this.getHabitsCount}

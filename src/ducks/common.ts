@@ -2,7 +2,6 @@ import { Map, List } from "immutable";
 import { Dispatch } from 'redux';
 import { Navigation } from "../types/General";
 import { HabitItemProps } from "../components/habit/types";
-import { HabitModel } from "../models/HabitModel";
 
 // Constants
 const HABITS_INIT = "habits/HABITS_INIT";
@@ -138,11 +137,9 @@ export type ReducerActions =
 export function reducer(state = initialState, action: ReducerActions) {
     switch (action.type) {
         case HABITS_INIT: {
-            console.log(action.payload);
-
             return {
                 ...state,
-                habits: action.payload,
+                habits: List(action.payload),
             }
         }
         case HABIT_ADD: {

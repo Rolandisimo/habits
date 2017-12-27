@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { HabitsConnected } from "../habits/Habits";
 import { StatsConnected } from "../stats/Stats";
-import { NewHabitButton } from "../new-habit-button/NewHabitButton";
+import { NewHabitButtonConnected } from "../new-habit-button/NewHabitButton";
 import { Navigation } from "../../types/General";
 import styles from "./styles";
 
@@ -15,9 +15,7 @@ export class MainScreen extends React.Component<MainScreenProps,  {}> {
             <View style={styles.container}>
                 <StatsConnected />
                 <HabitsConnected />
-                <NewHabitButton
-                    navigation={this.props.navigation}
-                />
+                <NewHabitButtonConnected />
             </View>
         );
     }
