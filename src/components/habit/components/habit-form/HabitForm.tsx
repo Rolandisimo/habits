@@ -21,6 +21,7 @@ import {
 import { routes } from "../../../../../routes";
 import { HabitItemProps } from "../../types";
 import { Navigation } from "../../../../types/General";
+import { periods } from "../../../habit/components/habit-form/utils";
 
 export interface HabitFormState {
     isKeyboardOpen: boolean;
@@ -32,14 +33,14 @@ export interface HabitFormState {
 
 export interface HabitFormStateProps {
     navigation: Navigation;
-} 
+}
 export interface HabitFormDispatchProps {
     addHabit: typeof addHabitActionCreator;
     editHabit: typeof editHabitActionCreator;
-} 
+}
 export interface HabitFormOwnProps {
     habit?: HabitItemProps;
-} 
+}
 export type HabitFormProps = HabitFormOwnProps & HabitFormStateProps & HabitFormDispatchProps;
 
 export class HabitForm extends React.Component<HabitFormProps, HabitFormState> {
@@ -47,7 +48,7 @@ export class HabitForm extends React.Component<HabitFormProps, HabitFormState> {
         isKeyboardOpen: false, // determines marginBottom for button wrapper
         keyBoardHeight: 0,
         nameValue: this.props.habit ? this.props.habit.name : "",
-        periodValue: this.props.habit ? this.props.habit.period : 0,
+        periodValue: this.props.habit ? this.props.habit.period : periods[0].value,
         notificationTimeValue: this.props.habit ? this.props.habit.notificationTime : "",
     };
     newHabit: HabitItemProps;
@@ -67,8 +68,10 @@ export class HabitForm extends React.Component<HabitFormProps, HabitFormState> {
     componentWillMount () {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.setKeyboardOpen);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.setKeyboardClosed);
+        this.setState({
+            notificationTimeValue: "04:20",
+        })
     }
-
     componentWillUnmount () {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
@@ -116,7 +119,9 @@ export class HabitForm extends React.Component<HabitFormProps, HabitFormState> {
         const habitNameStyles = [styles.input, isEditingState ? { backgroundColor: "#fff" } : null];
 
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView
+                contentContainerStyle={styles.container}
+            >
                 <View style={styles.formGroup}>
                     <Text style={styles.label}>Name</Text>
                     <TextInput

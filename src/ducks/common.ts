@@ -2,6 +2,7 @@ import { Map, List } from "immutable";
 import { Dispatch } from 'redux';
 import { Navigation } from "../types/General";
 import { HabitItemProps } from "../components/habit/types";
+import { HabitModel } from "../models/HabitModel";
 
 // Constants
 const HABIT_ADD = "habits/HABIT_ADD";
@@ -103,43 +104,7 @@ const initialState = {
         totalDone: 50,
         total: 79,
     }),
-    habits: List([
-        {
-            id: 1,
-            name: "Eat Kashka",
-            period: 1814000000,
-            notificationTime: "08:00",
-            done: false,
-        },
-        {
-            id: 2,
-            name: "Brush teeth with left hand",
-            period: 2629746000,
-            notificationTime: "23:00",
-            done: false,
-        },
-        {
-            id: 4,
-            name: "Brush teeth with left hand",
-            period: 2629746000,
-            notificationTime: "23:00",
-            done: false,
-        },
-        {
-            id: 5,
-            name: "Brush teeth with left hand",
-            period: 2629746000,
-            notificationTime: "23:00",
-            done: false,
-        },
-        {
-            id: 3,
-            name: "Make the bed",
-            period: 7889238000,
-            notificationTime: "10:00",
-            done: true,
-        }
-    ]),
+    habits: List<HabitItemProps>(),
     navigation: {},
 };
 
@@ -155,9 +120,17 @@ export type ReducerActions =
 export function reducer(state = initialState, action: ReducerActions) {
     switch (action.type) {
         case HABIT_ADD: {
-            const newHabits = List([state.habits, action.payload]);
-            console.log("common", newHabits)
-            return { ...state, habits: List([...state.habits.toArray(), action.payload]) };
+            let newHabits: List<HabitItemProps>;
+            // const newHabit =
+            // console.log(action.payload);
+            HabitModel.create(action.payload).then((response) => {
+                console.log(response);
+                newHabits = List([...state.habits.toArray(), response]);
+            });
+
+            const habits = List([...state.habits.toArray(), ]);
+            // console.log("common", habits)
+            return { ...state, habits };
         }
         case HABIT_EDIT: {
             // TODO: Fix typings

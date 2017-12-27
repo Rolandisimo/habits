@@ -34,11 +34,11 @@ export default StyleSheet.create({
     formGroup: {
         margin: 10,
         flexDirection: "column",
-        fontSize: 20,
+        // fontSize: 20,
     },
     label: {
         marginBottom: 5,
-        fontSize: 16,
+        // fontSize: 16,
         fontWeight: "200",
     },
     editIcon: {
