@@ -31,7 +31,7 @@ export async function setHabitNotification(habit: HabitItemProps, repeat=true) {
         },
         {
             time: nextNotificationTime(habit.notificationTime),
-            repeat: repeat ? 'minute' : undefined,
+            repeat: repeat ? 'day' : undefined,
         }
     );
 }
