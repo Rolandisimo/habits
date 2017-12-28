@@ -60,6 +60,18 @@
     component-type "^1.2.1"
     join-component "^1.1.0"
 
+"@types/expo@^24.0.1":
+  version "24.0.1"
+  resolved "https://registry.yarnpkg.com/@types/expo/-/expo-24.0.1.tgz#7f41153ef3cd9426ad4c27bb8c7d62b088cbe750"
+  dependencies:
+    "@types/fbemitter" "*"
+    "@types/react" "*"
+    "@types/react-native" "*"
+
+"@types/fbemitter@*":
+  version "2.0.32"
+  resolved "https://registry.yarnpkg.com/@types/fbemitter/-/fbemitter-2.0.32.tgz#8ed204da0f54e9c8eaec31b1eec91e25132d082c"
+
 "@types/lodash@^4.14.91":
   version "4.14.91"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.91.tgz#794611b28056d16b5436059c6d800b39d573cd3a"
