@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { HabitConnected } from "../habit/Habit";
 import { selectHabits } from "../../ducks/common";
 import { HabitItemProps } from "../habit/types";
+import { EmptyHabits } from './components/empty-habits/EmptyHabits';
 
 export interface ListItem {
     id: number;
@@ -30,7 +31,7 @@ export class Habits extends React.Component<HabitsProps, {}> {
     }
     render() {
         if (!this.props.habits.size) {
-            return null;
+            return <EmptyHabits />;
         }
 
         return (

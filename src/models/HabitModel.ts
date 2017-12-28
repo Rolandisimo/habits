@@ -73,6 +73,8 @@ export class HabitModel {
     }
 
     static async all(): Promise<HabitItemProps[]> {
+        await AsyncStorage.clear();
+
         const keys = await HabitModel.listIds();
         const multiGetElements = await AsyncStorage.multiGet(keys, (err, stores) => {
             return stores;
