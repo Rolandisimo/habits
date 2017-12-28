@@ -1,14 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { HabitItemProps } from "../components/habit/types";
 
-export type HabitKeys =
-    | "id"
-    | "name"
-    | "period"
-    | "createdAt"
-    | "notificationTime"
-    | "done"
-;
 export class HabitModel {
     habit: HabitItemProps;
 
