@@ -9,6 +9,8 @@ import {
     initHabitActionCreator,
     deleteHabitActionCreator,
     editHabitActionCreator,
+    setStatisticsActionCreator,
+    Statistics,
 } from "../ducks/common";
 import { HabitModel } from "../models/HabitModel";
 
@@ -92,10 +94,7 @@ export type HabitRestMiddlewareAction =
     | InitHabitsRestAction
 ;
 
-export const habitRestMiddleware = (<S extends PartialState>({
-    dispatch,
-    getState,
-}: MiddlewareAPI<S>) => (next: any) => {
+export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
     return (action: HabitRestMiddlewareAction) => {
         switch (action.type) {
             case HABIT_ADD: {
@@ -115,7 +114,6 @@ export const habitRestMiddleware = (<S extends PartialState>({
             case HABIT_EDIT: {
                 HabitModel.update(action.payload).then(response => {
                     if (response) {
-                        console.log("edit item")
                         dispatch(editHabitActionCreator(action.payload));
                     }
                 });
@@ -123,10 +121,24 @@ export const habitRestMiddleware = (<S extends PartialState>({
             }
             case HABITS_INIT: {
                 HabitModel.all().then((response) => {
-                    const sortedResponse = response.sort((a, b) => {
+                    const sortedHabits = response.sort((a, b) => {
                         return b.createdAt - a.createdAt;
                     })
-                    dispatch(initHabitActionCreator(sortedResponse));
+
+                    const doneHabits = sortedHabits.filter(habit => {
+                        if (habit) {
+                            return habit.done;
+                        }
+                        return false;
+                    });
+
+                    // Add today done and today goal
+                    const statistics: Statistics = {
+                        done: doneHabits.length,
+                        total: sortedHabits.length,
+                    };
+                    dispatch(setStatisticsActionCreator(statistics));
+                    dispatch(initHabitActionCreator(sortedHabits));
                 })
                 break;
             }

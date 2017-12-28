@@ -6,25 +6,17 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import {
-    selectTodayDone,
-    selectTodayGoal,
-    selectTotalDone,
+    selectDone,
     selectTotal,
+    Statistics,
 } from "../../ducks/common";
 import styles from "./styles";
 
-export interface StatsProps {
-    todayDone: number;
-    todayGoal: number;
-    totalDone: number;
-    total: number;
-}
+export type StatsProps = Statistics;
 
 export class Stats extends React.PureComponent<StatsProps, {}> {
     static defaultProps = {
-        todayDone: 0,
-        todayGoal: 0,
-        totalDone: 0,
+        done: 0,
         total: 0,
     };
 
@@ -39,16 +31,8 @@ export class Stats extends React.PureComponent<StatsProps, {}> {
             <View style={styles.container}>
                 {
                     this.renderStatistic(
-                        "Today's progress",
-                        this.props.todayDone,
-                        this.props.todayGoal,
-                    )
-                }
-                <View style={styles.divide} />
-                {
-                    this.renderStatistic(
-                        "Total progress",
-                        this.props.totalDone,
+                        "Your todays progress",
+                        this.props.done,
                         this.props.total,
                     )
                 }
@@ -71,9 +55,7 @@ export class Stats extends React.PureComponent<StatsProps, {}> {
 }
 
 const mapStateToProps = (state: any): StatsProps => ({
-    todayDone: selectTodayDone(state),
-    todayGoal: selectTodayGoal(state),
-    totalDone: selectTotalDone(state),
+    done: selectDone(state),
     total: selectTotal(state),
 });
 

@@ -1,4 +1,4 @@
-import { Map, List } from "immutable";
+import { List } from "immutable";
 import { Dispatch } from 'redux';
 import { Navigation } from "../types/General";
 import { HabitItemProps } from "../components/habit/types";
@@ -9,14 +9,13 @@ const HABIT_ADD = "habits/HABIT_ADD";
 const HABIT_EDIT = "habits/HABIT_EDIT";
 const HABIT_DELETE = "habits/HABIT_REMOVE";
 const ADD_NAVIGATION = "navigation/ADD_NAVIGATION";
+const SET_STATISTICS = "navigation/SET_STATISTICS";
 
 // Selectors
-export const selectHabits = (state: any) => state.habits;
-export const selectTodayDone = (state: any) => state.statistics.get("todayDone");
-export const selectTodayGoal = (state: any) => state.statistics.get("todayGoal");
-export const selectTotalDone = (state: any) => state.statistics.get("totalDone");
-export const selectTotal = (state: any) => state.statistics.get("total");
-export const selectNavigation = (state: any) => state.navigation as Navigation;
+export const selectHabits = (state: Pick<State, "habits">): List<HabitItemProps> => state.habits;
+export const selectDone = (state: Pick<State, "statistics">) => state.statistics.done;
+export const selectTotal = (state: Pick<State, "statistics">) => state.statistics.total;
+export const selectNavigation = (state: Pick<State, "navigation">) => state.navigation as Navigation;
 
 // Actions/Action Creators
 export interface AddHabitAction {
@@ -99,30 +98,39 @@ export const setNavigationActionCreator = (navigation: Navigation) => {
     };
 }
 
+export interface SetStatisticsAction {
+    type: typeof SET_STATISTICS;
+    payload: Statistics;
+}
+export function setStatisticsAction(statistics: Statistics): SetStatisticsAction {
+    return {
+        type: SET_STATISTICS,
+        payload: statistics,
+    }
+};
+export const setStatisticsActionCreator = (statistics: Statistics) => {
+    return (dispatch: Dispatch<any>) => {
+        dispatch(setStatisticsAction(statistics));
+    };
+}
+
 // TODO: Make as a record
 export interface Statistics {
-    todayDone: number;
-    todayGoal: number;
-    totalDone: number;
+    done: number;
     total: number;
 }
 export interface State {
-    statistics: any;
+    statistics: Statistics;
     habits: List<HabitItemProps>;
+    navigation?: Navigation; 
 }
 
-// TODO: Define state types
 // Initial state
 const initialState = {
-    statistics: Map({
-        todayDone: 2,
-        todayGoal: 5,
-        totalDone: 50,
-        total: 79,
-    }),
+    statistics: {},
     habits: List<HabitItemProps>(),
     navigation: {},
-};
+} as State;
 
 // TODO: Add Action union types
 export type ReducerActions =
@@ -131,6 +139,7 @@ export type ReducerActions =
     | EditHabitAction
     | DeleteHabitAction
     | SetNavigationAction
+    | SetStatisticsAction
 ;
 
 // Reducer
@@ -160,19 +169,24 @@ export function reducer(state = initialState, action: ReducerActions) {
 
             return { ...state, habits: newHabits };
         }
-        case ADD_NAVIGATION: {
-            return { ...state, navigation: action.payload };
-        }
         case HABIT_DELETE:
-            // TODO: Implement
             const habits = state.habits.filter(habit => {
                 if (habit) {
                     return habit.id !== action.payload
                 }
                 return false;
             })
-
+            
             return { ...state, habits };
+        case ADD_NAVIGATION: {
+            return { ...state, navigation: action.payload };
+        }
+        case SET_STATISTICS: {
+            return {
+                ...state,
+                statistics: action.payload,
+            }
+        }
         default:
             return state;
     }

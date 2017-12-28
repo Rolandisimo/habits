@@ -29,11 +29,11 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   primaryValue: {
-    fontSize: 50,
-    fontWeight: "200",
+    fontSize: 55,
+    fontWeight: "100",
   },
   regularValue: {
-    fontSize: 20,
+    fontSize: 55,
     fontWeight: "100",
   },
   divide: {
