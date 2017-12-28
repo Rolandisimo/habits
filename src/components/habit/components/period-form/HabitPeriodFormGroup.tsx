@@ -4,7 +4,7 @@ import {
     View,
     TextInput,
 } from "react-native";
-import RadioForm from 'react-native-simple-radio-button';
+import RadioForm from "react-native-simple-radio-button";
 import { periods, getSelectedPeriod } from "./utils";
 import styles from "./styles";
 
@@ -14,7 +14,7 @@ export interface HabitPeriodFormGroupDefaultProps {
     isEditing: boolean,
 }
 export interface HabitPeriodFormGroupProps extends Partial<HabitPeriodFormGroupDefaultProps> {
-    onPress: (periodValue: number) => void,
+    onPress?: (periodValue: number) => void,
 }
 
 export type HabitPeriodFormGroupPropsWithDefaults = HabitPeriodFormGroupProps & HabitPeriodFormGroupDefaultProps;

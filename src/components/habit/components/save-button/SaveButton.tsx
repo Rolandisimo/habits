@@ -11,13 +11,14 @@ export interface SaveButtonProps {
     onPress: (event: GestureResponderEvent) => void;
 }
 
-export class SaveButton extends React.PureComponent<SaveButtonProps, {}> {
+export class SaveButton extends React.Component<SaveButtonProps, {}> {
     render() {
         return (
             <TouchableOpacity
                 activeOpacity={0.6}
+                disabled={this.props.disabled}
                 style={styles.button}
-                onPress={!this.props.disabled ? this.props.onPress : undefined}
+                onPress={this.props.onPress}
             >
                 <Text style={styles.label}>Save</Text>
             </TouchableOpacity>

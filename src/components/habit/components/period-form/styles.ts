@@ -5,7 +5,6 @@ import {
 
 const padding = 20;
 const inputHeight = Dimensions.get("window").width / 5;
-const datePickerWidth = Dimensions.get("window").width - 60; // padding 20 * 2 + margin 10 * 2
 const shadowStyles = {
     shadowColor: "rgba(189, 195, 199, 0.7)",
     shadowOpacity: 1.0,
@@ -15,12 +14,6 @@ const shadowStyles = {
     },
 };
 export default StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        margin: 1,
-        alignItems: "center",
-    },
     input: {
         borderWidth: 1,
         borderColor: "#e7e7e7",
@@ -39,22 +32,8 @@ export default StyleSheet.create({
         marginBottom: 5,
         fontWeight: "200",
     },
-    datePicker: {
-        padding,
-        ...shadowStyles,
-        width: datePickerWidth,
-        borderRadius: 2,
-        height: inputHeight,
-        backgroundColor: "#fff",
-    },
-    buttonWrapper: {
-        marginBottom: 20,
+    radio: {
+        alignSelf: "flex-start",
+        alignItems: "flex-start",
     },
 });
-export const datePickerCustomStyles = {
-    dateInput: {
-        borderWidth: 0,
-        height: inputHeight,
-        ...shadowStyles,
-    },
-};

@@ -7,9 +7,9 @@ import thunk from "redux-thunk";
 import { MainScreen } from "./components/main-screen/MainScreen";
 import { reducer as commonReducer, setNavigationActionCreator } from "./ducks/common";
 import { habitRestMiddleware } from "./middleware/habitRest";
-import { ViewHabit } from "./components/habit/components/view-habit/ViewHabit";
-import { CreateHabit } from "./components/habit/components/create-habit/CreateHabit";
-import { Navigation } from "./types/General";
+import { ViewHabitConnected } from "./components/habit/components/view-habit/ViewHabit";
+import { CreateHabitConnected } from "./components/habit/components/create-habit/CreateHabit";
+import { Navigation, hasParams } from "./types/General";
 import { initHabitRestActionCreator } from "./middleware/habitRest";
 
 const store = createStore(
@@ -19,7 +19,6 @@ const store = createStore(
         habitRestMiddleware,
     ),
 );
-
 store.dispatch(initHabitRestActionCreator());
 
 export interface NavigationOptions {
@@ -50,15 +49,20 @@ const Stacks = StackNavigator({
         },
     },
     ViewHabit: {
-        screen: mapNavigationStateParamsToProps(ViewHabit),
+        screen: mapNavigationStateParamsToProps(ViewHabitConnected),
         navigationOptions: ({ navigation }: NavigationOptions) => { // For more complex titles, options)
+            if (hasParams(navigation.state)) {
+                return {
+                    title: `${navigation.state.params.habit.name}`, // check path to name prop
+                };
+            }
             return {
-                title: `${navigation.state.params.habit.name}`, // check path to name prop
-            };
+                title: `Habit ${navigation.state.key}`,
+            }
         },
     },
     CreateHabit: {
-        screen: mapNavigationStateParamsToProps(CreateHabit),
+        screen: mapNavigationStateParamsToProps(CreateHabitConnected),
         navigationOptions: ({ navigation }: NavigationOptions) => { // For more complex titles, options)
             return {
                 title: "Create new habit",

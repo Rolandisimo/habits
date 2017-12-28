@@ -145,7 +145,7 @@ export function reducer(state = initialState, action: ReducerActions) {
         case HABIT_ADD: {
             return {
                 ...state,
-                habits: List([...state.habits.toArray(), action.payload]),
+                habits: List([action.payload, ...state.habits.toArray()]),
             };
         }
         case HABIT_EDIT: {

@@ -22,6 +22,7 @@ export default StyleSheet.create({
         alignItems: "center",
         width: buttonWidth,
         backgroundColor: "rgba(231, 76, 60, .8)",
+        opacity: 1,
     },
     label: {
         fontSize: 20,

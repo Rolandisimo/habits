@@ -27,7 +27,7 @@ export class NewHabitButton extends React.PureComponent<NewHabitButtonProps, {}>
 
     onPress() {
         // TODO: Handle params with store or make additional screens
-        this.props.navigation.navigate("CreateHabit", { isNew: true, isEditing: false });
+        this.props.navigation.navigate("CreateHabit", { isNew: true, isEditing: false, habit: {} });
     }
 }
 
