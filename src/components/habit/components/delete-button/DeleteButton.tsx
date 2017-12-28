@@ -1,13 +1,13 @@
 import React  from "react";
 import { Button, ButtonProps } from "../../../button/Button";
 
-export class EditButton extends React.PureComponent<Pick<ButtonProps, "onPress">, {}> {
+export class DeleteButton extends React.PureComponent<Pick<ButtonProps, "onPress">, {}> {
     render() {
         return (
             <Button
                 onPress={this.props.onPress}
-                label="Edit"
-                color="orange"
+                label="Delete"
+                color="red"
             />
         );
     }

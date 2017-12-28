@@ -12,6 +12,7 @@ import {
 import DatePicker from "react-native-datepicker"
 import { HabitPeriodFormGroup } from "../period-form/HabitPeriodFormGroup";
 import { SaveButton } from "../save-button/SaveButton";
+import { DeleteButton } from "../delete-button/DeleteButton";
 import styles, { datePickerCustomStyles} from "./styles";
 import { editHabitActionCreator } from "../../../../ducks/common";
 import {
@@ -65,6 +66,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
         this.setKeyboardOpen = this.setKeyboardOpen.bind(this);
         this.onSave = this.onSave.bind(this);
         this.onDoneChange = this.onDoneChange.bind(this);
+        this.onDelete = this.onDelete.bind(this);
     }
     componentWillMount () {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.setKeyboardOpen);
@@ -180,6 +182,9 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
                         onPress={this.onSave}
                         disabled={!isValidHabit}
                     />
+                    { !isNew && (
+                        <DeleteButton onPress={this.onDelete} />
+                    )}
                 </View>
             </ScrollView>
         );
@@ -227,6 +232,9 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
             this.props.editHabit(this.newHabit);
         }
         this.props.navigation.navigate(routes.MainScreen);
+    }
+    onDelete() {
+        console.log("delete")
     }
 }
 

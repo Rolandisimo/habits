@@ -60,6 +60,7 @@ export default StyleSheet.create({
         alignItems: "flex-start",
     },
     buttonWrapper: {
+        marginTop: 50,
         marginBottom: 20,
     },
     buttonWrapperEditing: {

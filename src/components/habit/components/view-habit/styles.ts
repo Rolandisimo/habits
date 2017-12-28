@@ -48,6 +48,7 @@ export default StyleSheet.create({
         backgroundColor: "#fff",
     },
     buttonWrapper: {
+        marginTop: 50,
         marginBottom: 20,
     },
 });

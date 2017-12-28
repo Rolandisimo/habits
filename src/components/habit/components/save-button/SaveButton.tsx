@@ -1,27 +1,14 @@
 import React  from "react";
-import {
-    Text,
-    TouchableOpacity,
-    GestureResponderEvent,
-} from "react-native";
-import styles from "./styles";
+import { Button, ButtonProps } from "../../../button/Button";
 
-export interface SaveButtonProps {
-    disabled: boolean;
-    onPress: (event: GestureResponderEvent) => void;
-}
-
-export class SaveButton extends React.Component<SaveButtonProps, {}> {
+export class SaveButton extends React.PureComponent<Pick<ButtonProps, "onPress", "disabled">, {}> {
     render() {
         return (
-            <TouchableOpacity
-                activeOpacity={0.6}
-                disabled={this.props.disabled}
-                style={styles.button}
+            <Button
                 onPress={this.props.onPress}
-            >
-                <Text style={styles.label}>Save</Text>
-            </TouchableOpacity>
+                label="Save"
+                disabled={this.props.disabled}
+            />
         );
     }
 }

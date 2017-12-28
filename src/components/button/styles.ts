@@ -17,12 +17,10 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: "#e7e7e7",
         borderRadius: 5,
-        marginTop: 50,
+        margin: 10,
         padding: 20,
         alignItems: "center",
         width: buttonWidth,
-        backgroundColor: "rgba(231, 76, 60, .8)",
-        opacity: 1,
     },
     label: {
         fontSize: 20,
