@@ -8,9 +8,9 @@ export class HabitModel {
         this.habit = habit;
     }
 
-    static async destroy(id: number) {
+    static async destroy(habit: HabitItemProps) {
         try {
-            await AsyncStorage.removeItem(`habit:${id}`);
+            await AsyncStorage.removeItem(`habit:${habit.id}`);
             return true;
         } catch (error) {
             window.setTimeout(() => {

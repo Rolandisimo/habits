@@ -1,7 +1,7 @@
 import { List } from "immutable";
-import { Dispatch } from 'redux';
 import { Navigation } from "../types/General";
 import { HabitItemProps } from "../components/habit/types";
+import { Thunk } from "../types/types";
 
 // Constants
 const HABITS_INIT = "habits/HABITS_INIT";
@@ -12,10 +12,10 @@ const ADD_NAVIGATION = "navigation/ADD_NAVIGATION";
 const SET_STATISTICS = "navigation/SET_STATISTICS";
 
 // Selectors
-export const selectHabits = (state: Pick<State, "habits">): List<HabitItemProps> => state.habits;
-export const selectDone = (state: Pick<State, "statistics">) => state.statistics.done;
-export const selectTotal = (state: Pick<State, "statistics">) => state.statistics.total;
-export const selectNavigation = (state: Pick<State, "navigation">) => state.navigation as Navigation;
+export const selectHabits = (state: any): List<HabitItemProps> => state.habits;
+export const selectDone = (state: any): number => state.statistics.done;
+export const selectTotal = (state: any): number => state.statistics.total;
+export const selectNavigation = (state: any) => state.navigation as Navigation;
 
 // Actions/Action Creators
 export interface AddHabitAction {
@@ -28,9 +28,15 @@ export function addHabitAction(habit: HabitItemProps): AddHabitAction {
         payload: habit,
     }
 };
-export function addHabitActionCreator(habit: HabitItemProps) {
-    return (dispatch: Dispatch<any>) => {
+export function addHabitActionCreator(habit: HabitItemProps): Thunk {
+    return (dispatch, getState) => {
         dispatch(addHabitAction(habit));
+
+        const state = getState();
+        dispatch(setStatisticsAction({
+            done: selectDone(state),
+            total: selectHabits(state).size,
+        }));
     };
 }
 
@@ -44,8 +50,8 @@ export function initHabitsAction(habits: HabitItemProps[]): InitHabitsAction {
         payload: habits,
     }
 };
-export function initHabitActionCreator(habits: HabitItemProps[]) {
-    return (dispatch: Dispatch<any>) => {
+export function initHabitActionCreator(habits: HabitItemProps[]): Thunk {
+    return (dispatch) => {
         dispatch(initHabitsAction(habits));
     };
 }
@@ -60,9 +66,25 @@ export function editHabitAction(habit: HabitItemProps): EditHabitAction {
         payload: habit,
     }
 };
-export function editHabitActionCreator(habit: HabitItemProps) {
-    return (dispatch: Dispatch<any>) => {
+export function editHabitActionCreator(habit: HabitItemProps): Thunk {
+    return (dispatch, getState) => {
         dispatch(editHabitAction(habit));
+
+        // TODO: Move mutation to middleware
+        if (habit.done) {
+            const state = getState();
+            const doneHabits = selectHabits(state)
+                .filter(habit => {
+                    if (habit && habit.done) {
+                        return true;
+                    }
+                    return false;
+                });
+            dispatch(setStatisticsAction({
+                done: doneHabits.size,
+                total: selectTotal(state),
+            }));
+        }
     };
 }
 
@@ -76,9 +98,15 @@ export function deleteHabitAction(id: number): DeleteHabitAction {
         payload: id,
     }
 };
-export function deleteHabitActionCreator(id: number) {
-    return (dispatch: Dispatch<any>) => {
+export function deleteHabitActionCreator(id: number): Thunk {
+    return (dispatch, getState) => {
         dispatch(deleteHabitAction(id));
+
+        const state = getState();
+        dispatch(setStatisticsAction({
+            done: selectDone(state),
+            total: selectHabits(state).size,
+        }));
     };
 }
 
@@ -92,8 +120,8 @@ export function setNavigationAction(navigation: Navigation): SetNavigationAction
         payload: navigation,
     }
 };
-export const setNavigationActionCreator = (navigation: Navigation) => {
-    return (dispatch: Dispatch<any>) => {
+export const setNavigationActionCreator = (navigation: Navigation): Thunk => {
+    return (dispatch) => {
         dispatch(setNavigationAction(navigation));
     };
 }
@@ -108,13 +136,12 @@ export function setStatisticsAction(statistics: Statistics): SetStatisticsAction
         payload: statistics,
     }
 };
-export const setStatisticsActionCreator = (statistics: Statistics) => {
-    return (dispatch: Dispatch<any>) => {
+export const setStatisticsActionCreator = (statistics: Statistics): Thunk => {
+    return (dispatch) => {
         dispatch(setStatisticsAction(statistics));
     };
 }
 
-// TODO: Make as a record
 export interface Statistics {
     done: number;
     total: number;
@@ -132,7 +159,6 @@ const initialState = {
     navigation: {},
 } as State;
 
-// TODO: Add Action union types
 export type ReducerActions =
     | InitHabitsAction
     | AddHabitAction

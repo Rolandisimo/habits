@@ -13,6 +13,10 @@ import {
     Statistics,
 } from "../ducks/common";
 import { HabitModel } from "../models/HabitModel";
+import {
+    getDoneHabits,
+    sortHabits,
+} from "./utils";
 
 export const HABIT_ADD = "habitRest/HABIT_ADD";
 export const HABIT_DELETE = "habitRest/HABIT_DELETE";
@@ -38,17 +42,17 @@ export function addHabitRestActionCreator(habit: HabitItemProps) {
 
 export interface DeleteHabitRestAction {
     type: typeof HABIT_DELETE;
-    payload: number;
+    payload: HabitItemProps;
 }
-export function deleteHabitRestAction(id: number): DeleteHabitRestAction {
+export function deleteHabitRestAction(habit: HabitItemProps): DeleteHabitRestAction {
     return {
         type: HABIT_DELETE,
-        payload: id,
+        payload: habit,
     }
 };
-export function deleteHabitRestActionCreator(id: number) {
+export function deleteHabitRestActionCreator(habit: HabitItemProps) {
     return (dispatch: Dispatch<any>) => {
-        dispatch(deleteHabitRestAction(id));
+        dispatch(deleteHabitRestAction(habit));
     };
 }
 
@@ -106,7 +110,7 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
             case HABIT_DELETE: {
                 HabitModel.destroy(action.payload).then(response => {
                     if (response) {
-                        dispatch(deleteHabitActionCreator(action.payload));
+                        dispatch(deleteHabitActionCreator(action.payload.id));
                     }
                 });
                 break;
@@ -121,20 +125,10 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
             }
             case HABITS_INIT: {
                 HabitModel.all().then((response) => {
-                    const sortedHabits = response.sort((a, b) => {
-                        return b.createdAt - a.createdAt;
-                    })
-
-                    const doneHabits = sortedHabits.filter(habit => {
-                        if (habit) {
-                            return habit.done;
-                        }
-                        return false;
-                    });
-
+                    const sortedHabits = sortHabits(response);
                     // Add today done and today goal
                     const statistics: Statistics = {
-                        done: doneHabits.length,
+                        done: getDoneHabits(sortedHabits).length,
                         total: sortedHabits.length,
                     };
                     dispatch(setStatisticsActionCreator(statistics));

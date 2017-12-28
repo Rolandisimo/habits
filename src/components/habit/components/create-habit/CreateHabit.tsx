@@ -220,8 +220,8 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
         this.props.navigation.navigate(routes.MainScreen, {});
     }
     onDelete() {
-        if (this.params.habit.id) {
-            this.props.deleteHabit(this.params.habit.id);
+        if (this.params.habit) {
+            this.props.deleteHabit(this.params.habit as HabitItemProps);
             this.props.navigation.navigate(routes.MainScreen, {});
         }
     }
