@@ -1,14 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { HabitItemProps } from "../components/habit/types";
 
-export type HabitKeys =
-    | "id"
-    | "name"
-    | "period"
-    | "createdAt"
-    | "notificationTime"
-    | "done"
-;
 export class HabitModel {
     habit: HabitItemProps;
 
@@ -73,8 +65,6 @@ export class HabitModel {
     }
 
     static async all(): Promise<HabitItemProps[]> {
-        await AsyncStorage.clear();
-
         const keys = await HabitModel.listIds();
         const multiGetElements = await AsyncStorage.multiGet(keys, (err, stores) => {
             return stores;
