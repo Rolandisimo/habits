@@ -69,17 +69,17 @@ export function editHabitActionCreator(habit: HabitItemProps) {
 
 export interface DeleteHabitAction {
     type: typeof HABIT_DELETE;
-    payload: HabitItemProps;
+    payload: number;
 }
-export function deleteHabitAction(habit: HabitItemProps): DeleteHabitAction {
+export function deleteHabitAction(id: number): DeleteHabitAction {
     return {
         type: HABIT_DELETE,
-        payload: habit,
+        payload: id,
     }
 };
-export function deleteHabitActionCreator(habit: HabitItemProps) {
+export function deleteHabitActionCreator(id: number) {
     return (dispatch: Dispatch<any>) => {
-        dispatch(deleteHabitAction(habit));
+        dispatch(deleteHabitAction(id));
     };
 }
 
@@ -165,7 +165,14 @@ export function reducer(state = initialState, action: ReducerActions) {
         }
         case HABIT_DELETE:
             // TODO: Implement
-            return state;
+            const habits = state.habits.filter(habit => {
+                if (habit) {
+                    return habit.id !== action.payload
+                }
+                return false;
+            })
+
+            return { ...state, habits };
         default:
             return state;
     }

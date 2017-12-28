@@ -9,7 +9,7 @@ import { reducer as commonReducer, setNavigationActionCreator } from "./ducks/co
 import { habitRestMiddleware } from "./middleware/habitRest";
 import { ViewHabitConnected } from "./components/habit/components/view-habit/ViewHabit";
 import { CreateHabitConnected } from "./components/habit/components/create-habit/CreateHabit";
-import { Navigation, hasParams } from "./types/General";
+import { Navigation } from "./types/General";
 import { initHabitRestActionCreator } from "./middleware/habitRest";
 
 const store = createStore(
@@ -51,14 +51,9 @@ const Stacks = StackNavigator({
     ViewHabit: {
         screen: mapNavigationStateParamsToProps(ViewHabitConnected),
         navigationOptions: ({ navigation }: NavigationOptions) => { // For more complex titles, options)
-            if (hasParams(navigation.state)) {
-                return {
-                    title: `${navigation.state.params.habit.name}`, // check path to name prop
-                };
-            }
             return {
-                title: `Habit ${navigation.state.key}`,
-            }
+                title: `${navigation.state.params.habit.name}`, // check path to name prop
+            };
         },
     },
     CreateHabit: {

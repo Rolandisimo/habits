@@ -14,13 +14,14 @@ import { HabitPeriodFormGroup } from "../period-form/HabitPeriodFormGroup";
 import { SaveButton } from "../save-button/SaveButton";
 import { DeleteButton } from "../delete-button/DeleteButton";
 import styles, { datePickerCustomStyles} from "./styles";
-import { editHabitActionCreator } from "../../../../ducks/common";
 import {
     addHabitRestActionCreator,
+    deleteHabitRestActionCreator,
+    editHabitRestActionCreator,
 } from "../../../../middleware/habitRest";
 import { routes } from "../../../../../routes";
 import { HabitItemProps } from "../../types";
-import { Navigation, hasParams, StateWithParams } from "../../../../types/General";
+import { Navigation } from "../../../../types/General";
 import { periods } from "../period-form/utils";
 
 export interface CreateHabitState {
@@ -37,7 +38,8 @@ export interface CreateHabitStateProps {
 }
 export interface CreateHabitDispatchProps {
     addHabit: typeof addHabitRestActionCreator;
-    editHabit: typeof editHabitActionCreator;
+    editHabit: typeof editHabitRestActionCreator;
+    deleteHabit: typeof deleteHabitRestActionCreator;
 }
 export interface CreateHabitOwnProps {
     habit?: HabitItemProps;
@@ -56,6 +58,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
     newHabit: HabitItemProps;
     keyboardDidShowListener: EmitterSubscription;
     keyboardDidHideListener: EmitterSubscription;
+    params = this.props.navigation.state.params;
     constructor(props: CreateHabitProps) {
         super(props);
 
@@ -72,26 +75,18 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.setKeyboardOpen);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.setKeyboardClosed);
 
-        if (hasParams(this.props.navigation.state)) {
-            const habit = this.props.navigation.state.params.habit;
-            if (habit.name) {
-                this.setState({
-                    nameValue: habit.name,
-                    periodValue: habit.period,
-                    notificationTimeValue: habit.notificationTime,
-                })
-            } else {
-                this.setState({
-                    periodValue: periods[0].value,
-                    notificationTimeValue: "18:00",
-                })
-            }
+        const { habit } = this.params;
+        if (habit.name && habit.period && habit.notificationTime) {
+            this.setState({
+                nameValue: habit.name,
+                periodValue: habit.period,
+                notificationTimeValue: habit.notificationTime,
+            })
         } else {
-            if (!this.state.notificationTimeValue) {
-                this.setState({
-                    notificationTimeValue: "18:00",
-                })
-            }
+            this.setState({
+                periodValue: periods[0].value,
+                notificationTimeValue: "18:00",
+            })
         }
     }
     componentWillUnmount () {
@@ -99,14 +94,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
         this.keyboardDidHideListener.remove();
     }
     render() {
-        // TODO: Fix workaround
-        // Workaround for typing compatibility
-        // Component will always have a habit in params
-        if (!hasParams(this.props.navigation.state)) {
-            return null;
-        }
-        const habit = this.props.navigation.state.params.habit;
-        const isNew = this.props.navigation.state.params.isNew;
+        const { habit, isNew } = this.params;
 
         const DateComponent = (
             <DatePicker
@@ -131,7 +119,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
             period: this.state.periodValue,
             notificationTime: this.state.notificationTimeValue,
             done: !!this.state.done,
-            createdAt: now,
+            createdAt: habit.createdAt || now,
         };
 
         const isValidHabit = this.newHabit.name !== "" && this.newHabit.notificationTime && this.newHabit.period
@@ -224,23 +212,25 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
         }
     }
     onSave() {
-        // Navigation params
-        const params = (this.props.navigation.state as StateWithParams).params;
-        if (params && params.isNew) {
+        if (this.params.isNew) {
             this.props.addHabit(this.newHabit);
         } else {
             this.props.editHabit(this.newHabit);
         }
-        this.props.navigation.navigate(routes.MainScreen);
+        this.props.navigation.navigate(routes.MainScreen, {});
     }
     onDelete() {
-        console.log("delete")
+        if (this.params.habit.id) {
+            this.props.deleteHabit(this.params.habit.id);
+            this.props.navigation.navigate(routes.MainScreen, {});
+        }
     }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps: CreateHabitDispatchProps = {
     addHabit: addHabitRestActionCreator,
-    editHabit: editHabitActionCreator,
+    editHabit: editHabitRestActionCreator,
+    deleteHabit: deleteHabitRestActionCreator,
 };
 
 export const CreateHabitConnected = connect<{}, CreateHabitDispatchProps>(

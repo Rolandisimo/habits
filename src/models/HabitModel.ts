@@ -16,24 +16,26 @@ export class HabitModel {
         this.habit = habit;
     }
 
-    async destroy() {
+    static async destroy(id: number) {
         try {
-            await AsyncStorage.removeItem(`${this.habit.id}`);
+            await AsyncStorage.removeItem(`habit:${id}`);
             return true;
         } catch (error) {
-            console.error("HabitModel.destroy() error");
-            console.error(error);
+            window.setTimeout(() => {
+                throw new Error("HabitModel.destroy() error: " + error)
+            })
             return false;
         }
     }
 
-    async update(habit: HabitItemProps) {
+    static async update(habit: HabitItemProps) {
         try {
-            await AsyncStorage.mergeItem(`${habit.id}`, JSON.stringify(habit));
+            await AsyncStorage.mergeItem(`habit:${habit.id}`, JSON.stringify(habit));
             return true;
         } catch (error) {
-            console.error("HabitModel.update() error");
-            console.error(error);
+            window.setTimeout(() => {
+                throw new Error("HabitModel.update() error: " + error)
+            })
             return false;
         }
     }
@@ -56,8 +58,9 @@ export class HabitModel {
                 JSON.stringify(newHabit),
             );
         } catch (error) {
-            console.error("HabitModel.create() error");
-            console.error(error);
+            window.setTimeout(() => {
+                throw new Error("HabitModel.create() error: " + error)
+            })
         }
 
         return newHabit;
@@ -87,8 +90,9 @@ export class HabitModel {
             const keys = await AsyncStorage.getAllKeys();
             return keys;
         } catch (error) {
-            console.error("HabitModel.lastId() error");
-            console.error(error);
+            window.setTimeout(() => {
+                throw new Error("HabitModel.listIds() error: " + error)
+            })
             return [];
         }
     }

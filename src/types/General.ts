@@ -1,27 +1,19 @@
 import { HabitItemProps } from "../components/habit/types";
 
 export interface NavigationParamsWithHabits {
-    habit: HabitItemProps;
+    habit: Partial<HabitItemProps>;
     isNew: boolean;
     isEditing: boolean;
 }
-export type NavigationParams = Partial<NavigationParamsWithHabits> | {[K: string]: any};
+export type NavigationParams = Partial<NavigationParamsWithHabits>;
 
-export interface StateWithoutParams {
-    key: string;
-    routeName: string;
-}
-export interface StateWithParams {
+export interface State {
     key: string;
     routeName: string;
     params: NavigationParamsWithHabits;
 }
 
-export function hasParams(state: any): state is StateWithParams {
-    return state.params;
-}
-
 export interface Navigation<> {
-    navigate: (routeName: string, params?: NavigationParams, action?: {[K: string]: any}) => void; // TODO: Add types to params
-    state: StateWithParams | StateWithoutParams;
+    navigate: (routeName: string, params: NavigationParams, action?: {[K: string]: any}) => void; // TODO: Add types to params
+    state: State;
 }

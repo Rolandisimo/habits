@@ -12,7 +12,7 @@ import styles, { datePickerCustomStyles } from "./styles";
 import { editHabitActionCreator } from "../../../../ducks/common";
 import { routes } from "../../../../../routes";
 import { HabitItemProps } from "../../types";
-import { Navigation, hasParams, StateWithParams } from "../../../../types/General";
+import { Navigation } from "../../../../types/General";
 import { HabitPeriodFormGroup } from "../period-form/HabitPeriodFormGroup";
 
 export interface ViewHabitStateProps {
@@ -27,20 +27,14 @@ export type ViewHabitProps = ViewHabitOwnProps & ViewHabitStateProps & ViewHabit
 
 export class ViewHabit extends React.Component<ViewHabitProps, {}> {
     newHabit: HabitItemProps;
+    params = this.props.navigation.state.params;
     constructor(props: ViewHabitProps) {
         super(props);
         this.onEdit = this.onEdit.bind(this);
     }
 
     render() {
-        // TODO: Fix workaround
-        // Workaround for typing compatibility
-        // Component will always have a habit in params
-        if (!hasParams(this.props.navigation.state)) {
-            return null;
-        }
-    
-        const habit = this.props.navigation.state.params.habit;
+        const { habit } = this.params;
         const DateComponent = (
             <DatePicker
                 disabled={true}
@@ -79,7 +73,7 @@ export class ViewHabit extends React.Component<ViewHabitProps, {}> {
         );
     }
     onEdit() {
-        const habit = (this.props.navigation.state as StateWithParams).params.habit;
+        const { habit } = this.params;
         this.props.navigation.navigate(
             routes.CreateHabit,
             {
