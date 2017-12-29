@@ -6,20 +6,22 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { MainScreen } from "./components/main-screen/MainScreen";
 import { reducer as commonReducer, setNavigationActionCreator } from "./ducks/common";
-import { habitRestMiddleware } from "./middleware/habitRest";
 import { ViewHabitConnected } from "./components/habit/components/view-habit/ViewHabit";
 import { CreateHabitConnected } from "./components/habit/components/create-habit/CreateHabit";
 import { Navigation } from "./types/General";
-import { initHabitRestActionCreator } from "./middleware/habitRest";
+import { habitRestMiddleware, initHabitRestActionCreator } from "./middleware/habitRest";
+import { notificationsMiddleware, notificationsInitActionCreator } from "./middleware/notifications";
 
 const store = createStore(
     commonReducer as any, // TODO: Fix incompatible type
     applyMiddleware(
         thunk,
         habitRestMiddleware,
+        notificationsMiddleware,
     ),
 );
 store.dispatch(initHabitRestActionCreator());
+store.dispatch(notificationsInitActionCreator());
 
 export interface NavigationOptions {
     navigation: Navigation,
