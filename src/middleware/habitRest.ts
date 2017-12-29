@@ -109,10 +109,13 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
             case HABIT_ADD: {
                 HabitModel.create(action.payload).then((habit) => {
                     setHabitNotification(habit).then((notificationId) => {
-                        habit.notificationId = notificationId;
-                        HabitModel.update(habit);
+                        const updatedHabit = {
+                            ...habit,
+                            notificationId,
+                        }
 
-                        dispatch(addHabitActionCreator(habit));
+                        HabitModel.update(updatedHabit);
+                        dispatch(addHabitActionCreator(updatedHabit));
                     });
                 });
                 break;
@@ -142,10 +145,13 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
                     }
 
                     setHabitNotification(action.payload).then((notificationId) => {
-                        action.payload.notificationId = notificationId;
-                        HabitModel.update(action.payload);
+                        const updatedHabit = {
+                            ...action.payload,
+                            notificationId,
+                        }
 
-                        dispatch(editHabitActionCreator(action.payload));
+                        HabitModel.update(updatedHabit);
+                        dispatch(editHabitActionCreator(updatedHabit));
                     });
                 });
                 break;

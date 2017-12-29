@@ -149,7 +149,7 @@ export interface Statistics {
 export interface State {
     statistics: Statistics;
     habits: List<HabitItemProps>;
-    navigation?: Navigation; 
+    navigation?: Navigation;
 }
 
 // Initial state
