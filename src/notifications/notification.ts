@@ -12,8 +12,6 @@ import { HabitItemProps } from "../components/habit/types";
 export async function setHabitNotification(habit: HabitItemProps, repeat=true) {
     // https://docs.expo.io/versions/latest/sdk/notifications.html#localnotification
     // Returns Notification ID to store in Habit Model
-    console.log('setHabitNotification', habit);
-
     return await Notifications.scheduleLocalNotificationAsync(
         {
             title: habit.name,
@@ -33,7 +31,7 @@ export async function setHabitNotification(habit: HabitItemProps, repeat=true) {
             time: nextNotificationTime(habit.notificationTime),
             repeat: repeat ? 'day' : undefined,
         }
-    );
+    ) as number;
 }
 
 export function cancelScheduled(id: number) {

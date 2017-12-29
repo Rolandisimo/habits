@@ -3,6 +3,7 @@ export interface HabitItemProps {
     name: string;
     period: number;
     notificationTime: string;
+    notificationId?: number;
     done: boolean;
     createdAt: number;
 }
