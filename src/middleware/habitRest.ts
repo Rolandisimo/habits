@@ -92,7 +92,7 @@ export function initHabitRestActionCreator() {
 }
 
 
-// TODO: Add typings, bitch
+// TODO: Add typings, bitch (ti pro sebja Roland???)
 export interface PartialState {
 }
 
