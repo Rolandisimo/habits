@@ -4,6 +4,8 @@ import ActionButton from 'react-native-action-button';
 import { throttle } from "lodash";
 import { Navigation } from "../../types/General";
 import { selectNavigation } from "../../ducks/common";
+import { routes } from '../../../routes';
+import { buttonColor } from "./styles";
 
 export interface NewHabitButtonProps {
     navigation: Navigation;
@@ -19,15 +21,21 @@ export class NewHabitButton extends React.PureComponent<NewHabitButtonProps, {}>
     render() {
         return (
             <ActionButton
-                buttonColor="rgba(231,76,60,1)"
+                buttonColor={buttonColor}
                 onPress={throttle(this.onPress, 500, { trailing: false })}
             />
         );
     }
 
     onPress() {
-        // TODO: Handle params with store or make additional screens
-        this.props.navigation.navigate("CreateHabit", { isNew: true, isEditing: false, habit: {} });
+        this.props.navigation.navigate(
+            routes.CreateHabit,
+            {
+                isNew: true,
+                isEditing: false,
+                habit: {},
+            },
+        );
     }
 }
 

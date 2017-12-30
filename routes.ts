@@ -1,5 +1,5 @@
 export const routes = {
     MainScreen: "MainScreen",
-    ViewScreen: "ViewScreen",
+    ViewHabit: "ViewHabit",
     CreateHabit: "CreateHabit",
 }

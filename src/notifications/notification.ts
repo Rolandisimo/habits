@@ -1,5 +1,4 @@
 import { Notifications } from "expo";
-
 import { HabitItemProps } from "../components/habit/types";
 
 // Expo.Notifications.dismissNotificationAsync(localNotificationId)

@@ -11,22 +11,18 @@ import { EditButton } from "../edit-button/EditButton";
 import styles, { datePickerCustomStyles } from "./styles";
 import { editHabitActionCreator } from "../../../../ducks/common";
 import { routes } from "../../../../../routes";
-import { HabitItemProps } from "../../types";
 import { Navigation } from "../../../../types/General";
 import { HabitPeriodFormGroup } from "../period-form/HabitPeriodFormGroup";
 
-export interface ViewHabitStateProps {
-}
 export interface ViewHabitDispatchProps {
     editHabit: typeof editHabitActionCreator;
 }
 export interface ViewHabitOwnProps {
     navigation: Navigation;
 }
-export type ViewHabitProps = ViewHabitOwnProps & ViewHabitStateProps & ViewHabitDispatchProps;
+export type ViewHabitProps = ViewHabitOwnProps & ViewHabitDispatchProps;
 
 export class ViewHabit extends React.Component<ViewHabitProps, {}> {
-    newHabit: HabitItemProps;
     params = this.props.navigation.state.params;
     constructor(props: ViewHabitProps) {
         super(props);
@@ -73,19 +69,18 @@ export class ViewHabit extends React.Component<ViewHabitProps, {}> {
         );
     }
     onEdit() {
-        const { habit } = this.params;
         this.props.navigation.navigate(
             routes.CreateHabit,
             {
                 isNew: false,
                 isEditing: true,
-                habit,
+                habit: this.params.habit,
             },
         );
     }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps: ViewHabitDispatchProps = {
     editHabit: editHabitActionCreator,
 };
 

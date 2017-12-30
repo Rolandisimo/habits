@@ -92,7 +92,7 @@ export function initHabitRestActionCreator(): Thunk {
 }
 
 
-// TODO: Add typings, bitch (ti pro sebja Roland???)
+// TODO: Add typings, bitch (ti pro sebja Roland???), da blja
 export interface PartialState {
 }
 
@@ -111,7 +111,7 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
                     setHabitNotification(habit).then((notificationId) => {
                         const updatedHabit = {
                             ...habit,
-                            notificationId,
+                            notificationId: +notificationId,
                         }
 
                         HabitModel.update(updatedHabit);
@@ -147,7 +147,7 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
                     setHabitNotification(action.payload).then((notificationId) => {
                         const updatedHabit = {
                             ...action.payload,
-                            notificationId,
+                            notificationId: +notificationId,
                         }
 
                         HabitModel.update(updatedHabit);

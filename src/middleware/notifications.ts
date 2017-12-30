@@ -52,13 +52,11 @@ export const notificationsMiddleware = (<S extends PartialState>({ dispatch }: M
 
                             break;
                         default:
-                            break;
                     }
                 });
                 break;
             }
             default:
-                break;
         }
 
         return next(action);

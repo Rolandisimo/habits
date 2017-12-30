@@ -5,7 +5,12 @@ import { Thunk } from "../types/types";
 import {
     createDeletePopup,
 } from '../components/popup/factory/PopupFactory';
-import { PopupData, PopupButtonType, PopupType, PopupId } from "../components/popup/factory/PopupData";
+import {
+    PopupData,
+    PopupButtonType,
+    PopupId,
+} from "../components/popup/factory/PopupData";
+import { createButton } from "../components/popup/factory/utils";
 import { deleteHabitRestActionCreator } from '../middleware/habitRest';
 import { routes } from '../../routes';
 
@@ -21,7 +26,6 @@ const SET_STATISTICS = "navigation/SET_STATISTICS";
 // Popups
 const SET_POPUP_VISIBLE = "navigation/SET_POPUP_VISIBLE";
 const SET_POPUP_HIDDEN = "navigation/SET_POPUP_HIDDEN";
-// const CREATE_DELETE_POPUP = "navigation/CREATE_DELETE_POPUP";
 const OPEN_POPUP = "navigation/OPEN_POPUP";
 const CLOSE_POPUP = "navigation/CLOSE_POPUP";
 
@@ -222,20 +226,18 @@ export const createDeletePopupActionCreator = (habit: HabitItemProps): Thunk => 
     return (dispatch, getState) => {
         dispatch(openPopupAction(createDeletePopup({
             buttons: [
-                {
-                    id: PopupButtonType.Yes,
-                    title: "Yes",
-                    callback: () => {
+                createButton(
+                    PopupButtonType.Yes,
+                    () => {
                         dispatch(deleteHabitRestActionCreator(habit));
                         dispatch(closePopupActionCreator(PopupId.DeletePopup));
                         selectNavigation(getState()).navigate(routes.MainScreen, {});
                     },
-                },
-                {
-                    id: PopupButtonType.No,
-                    title: "No",
-                    callback: () => dispatch(closePopupActionCreator(PopupId.DeletePopup))
-                },
+                ),
+                createButton(
+                    PopupButtonType.No,
+                    () => dispatch(closePopupActionCreator(PopupId.DeletePopup)),
+                ),
             ],
         })));
     };
@@ -293,10 +295,9 @@ export function reducer(state = initialState, action: ReducerActions) {
             };
         }
         case HABIT_EDIT: {
-            // TODO: Fix typings
             const newHabits = state.habits
-                .map((habit: any) => {
-                    if (habit.id === action.payload.id) {
+                .map((habit?: HabitItemProps) => {
+                    if (habit && habit.id === action.payload.id) {
                         return action.payload;
                     }
                     return habit;

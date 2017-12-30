@@ -6,9 +6,9 @@ import {
     closePopupActionCreator,
     selectPopups,
 } from '../../ducks/common';
-import { styles } from "./styles";
 import { PopupData, PopupButton, PopupButtonType } from './factory/PopupData';
 import { Button, ButtonTheme } from '../button/Button';
+import { styles } from "./styles";
 
 export interface PopupDispatchProps {
     hidePopup: typeof closePopupActionCreator;

@@ -1,5 +1,4 @@
 import { AsyncStorage } from 'react-native';
-import { Notifications } from 'expo';
 import { HabitItemProps } from "../components/habit/types";
 
 export class HabitModel {

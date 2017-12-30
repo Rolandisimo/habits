@@ -60,7 +60,7 @@ const Stacks = StackNavigator({
     },
     CreateHabit: {
         screen: mapNavigationStateParamsToProps(CreateHabitConnected),
-        navigationOptions: ({ navigation }: NavigationOptions) => { // For more complex titles, options)
+        navigationOptions: () => { // For more complex titles, options)
             return {
                 title: "Create new habit",
             };

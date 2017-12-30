@@ -1,7 +1,7 @@
 import React  from "react";
 import { Button, ButtonProps } from "../../../button/Button";
 
-export class SaveButton extends React.PureComponent<Pick<ButtonProps, "onPress", "disabled">, {}> {
+export class SaveButton extends React.PureComponent<Pick<ButtonProps, "onPress" | "disabled">, {}> {
     render() {
         return (
             <Button

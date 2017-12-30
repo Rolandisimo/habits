@@ -6,11 +6,12 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
-
+import { throttle } from "lodash";
 import { selectNavigation } from "../../ducks/common";
 import { DoneOverlay } from "./components/done-overlay/DoneOverlay";
 import { Navigation } from "../../types/General";
 import { HabitItemProps } from "./types";
+import { routes } from '../../../routes';
 import styles from "./styles";
 
 export interface HabitOwnProps {
@@ -44,7 +45,7 @@ export class Habit extends React.Component<HabitProps, {}> {
         return (
             <TouchableOpacity
                 style={styles.container}
-                onPress={!done ? this.onPress : undefined}
+                onPress={!done ? throttle(this.onPress, 500, { trailing: false }) : undefined}
                 activeOpacity={0.5}
             >
                 <DoneOverlay done={done} />
@@ -66,11 +67,17 @@ export class Habit extends React.Component<HabitProps, {}> {
         );
     }
     onPress() {
-        this.props.navigation.navigate("ViewHabit", { isNew: false, isEditing: false, habit: this.props.habit });
+        this.props.navigation.navigate(
+            routes.ViewHabit,
+            {
+                isNew: false,
+                isEditing: false,
+                habit: this.props.habit,
+            },
+        );
     }
 }
 
-// TODO: Add types
 const mapStateToProps = (state: any): HabitStateProps => ({
     navigation: selectNavigation(state),
 });
