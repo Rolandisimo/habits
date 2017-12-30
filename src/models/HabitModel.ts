@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import { Notifications } from 'expo';
 import { HabitItemProps } from "../components/habit/types";
 
 export class HabitModel {
@@ -58,13 +59,10 @@ export class HabitModel {
         return newHabit;
     }
 
-    static initDummyObject() {
-        return {
-            name: "",
-        };
-    }
-
     static async all(): Promise<HabitItemProps[]> {
+        // AsyncStorage.clear();
+        // Notifications.cancelAllScheduledNotificationsAsync();
+
         const keys = await HabitModel.listIds();
         const multiGetElements = await AsyncStorage.multiGet(keys, (_, stores) => {
             return stores;

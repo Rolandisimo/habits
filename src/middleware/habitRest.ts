@@ -18,6 +18,11 @@ import {
 } from "./utils";
 import { Thunk } from '../types/types';
 
+import {
+    setHabitNotification,
+    cancelScheduled,
+} from "../notifications/notification"
+
 export const HABIT_ADD = "habitRest/HABIT_ADD";
 export const HABIT_DELETE = "habitRest/HABIT_DELETE";
 export const HABIT_EDIT = "habitRest/HABIT_EDIT";
@@ -87,7 +92,7 @@ export function initHabitRestActionCreator(): Thunk {
 }
 
 
-// TODO: Add typings, bitch
+// TODO: Add typings, bitch (ti pro sebja Roland???)
 export interface PartialState {
 }
 
@@ -102,24 +107,52 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
     return (action: HabitRestMiddlewareAction) => {
         switch (action.type) {
             case HABIT_ADD: {
-                HabitModel.create(action.payload).then((response) => {
-                    dispatch(addHabitActionCreator(response));
+                HabitModel.create(action.payload).then((habit) => {
+                    setHabitNotification(habit).then((notificationId) => {
+                        const updatedHabit = {
+                            ...habit,
+                            notificationId,
+                        }
+
+                        HabitModel.update(updatedHabit);
+                        dispatch(addHabitActionCreator(updatedHabit));
+                    });
                 });
                 break;
             }
             case HABIT_DELETE: {
-                HabitModel.destroy(action.payload).then(response => {
-                    if (response) {
-                        dispatch(deleteHabitActionCreator(action.payload.id));
+                HabitModel.destroy(action.payload).then(success => {
+                    if (!success) {
+                        return;
                     }
+
+                    if (action.payload.notificationId) {
+                        cancelScheduled(action.payload.notificationId);
+                    }
+
+                    dispatch(deleteHabitActionCreator(action.payload.id));
                 });
                 break;
             }
             case HABIT_EDIT: {
-                HabitModel.update(action.payload).then(response => {
-                    if (response) {
-                        dispatch(editHabitActionCreator(action.payload));
+                HabitModel.update(action.payload).then(success => {
+                    if (!success) {
+                        return;
                     }
+
+                    if (action.payload.notificationId) {
+                        cancelScheduled(action.payload.notificationId);
+                    }
+
+                    setHabitNotification(action.payload).then((notificationId) => {
+                        const updatedHabit = {
+                            ...action.payload,
+                            notificationId,
+                        }
+
+                        HabitModel.update(updatedHabit);
+                        dispatch(editHabitActionCreator(updatedHabit));
+                    });
                 });
                 break;
             }
