@@ -6,20 +6,36 @@ import {
 } from "react-native";
 import styles from "./styles";
 
+
+export enum ButtonTheme {
+    Small = "small",
+    Default = "default",
+}
 export interface ButtonProps {
-    onPress: (event: GestureResponderEvent) => void;
+    onPress: (event?: GestureResponderEvent) => void;
     label: string;
     color?: string;
     disabled?: boolean;
+    theme?: ButtonTheme;
 }
 
 export class Button extends React.PureComponent<ButtonProps, {}> {
+    public defaultProps = {
+        theme: ButtonTheme.Default,
+    }
     render() {
+
+        const buttonStyles = [
+            styles.button,
+            this.props.theme === ButtonTheme.Small ? styles.small : undefined,
+            { backgroundColor: this.props.color ? this.props.color : "green" },
+        ];
+
         return (
             <TouchableOpacity
                 disabled={this.props.disabled}
                 activeOpacity={0.6}
-                style={[styles.button, { backgroundColor: this.props.color ? this.props.color : "green" }]}
+                style={buttonStyles}
                 onPress={this.props.onPress}
             >
                 <Text style={styles.label}>{this.props.label}</Text>

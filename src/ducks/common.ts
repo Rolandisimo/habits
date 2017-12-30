@@ -2,20 +2,36 @@ import { List } from "immutable";
 import { Navigation } from "../types/General";
 import { HabitItemProps } from "../components/habit/types";
 import { Thunk } from "../types/types";
+import {
+    createDeletePopup,
+} from '../components/popup/factory/PopupFactory';
+import { PopupData, PopupButtonType, PopupType, PopupId } from "../components/popup/factory/PopupData";
+import { deleteHabitRestActionCreator } from '../middleware/habitRest';
+import { routes } from '../../routes';
 
-// Constants
+// Habits
 const HABITS_INIT = "habits/HABITS_INIT";
 const HABIT_ADD = "habits/HABIT_ADD";
 const HABIT_EDIT = "habits/HABIT_EDIT";
 const HABIT_DELETE = "habits/HABIT_REMOVE";
+// Navigation
 const ADD_NAVIGATION = "navigation/ADD_NAVIGATION";
+// Stats
 const SET_STATISTICS = "navigation/SET_STATISTICS";
+// Popups
+const SET_POPUP_VISIBLE = "navigation/SET_POPUP_VISIBLE";
+const SET_POPUP_HIDDEN = "navigation/SET_POPUP_HIDDEN";
+// const CREATE_DELETE_POPUP = "navigation/CREATE_DELETE_POPUP";
+const OPEN_POPUP = "navigation/OPEN_POPUP";
+const CLOSE_POPUP = "navigation/CLOSE_POPUP";
 
 // Selectors
 export const selectHabits = (state: any): List<HabitItemProps> => state.habits;
 export const selectDone = (state: any): number => state.statistics.done;
 export const selectTotal = (state: any): number => state.statistics.total;
 export const selectNavigation = (state: any) => state.navigation as Navigation;
+// export const selectPopupVisibility = (state: any): boolean => state.popup.visible;
+export const selectPopups = (state: any): PopupData[] => state.popups;
 
 // Actions/Action Creators
 export interface AddHabitAction {
@@ -142,6 +158,95 @@ export const setStatisticsActionCreator = (statistics: Statistics): Thunk => {
     };
 }
 
+export interface SetPopupVisibleAction {
+    type: typeof SET_POPUP_VISIBLE;
+}
+export function setPopupVisibleAction(): SetPopupVisibleAction {
+    return {
+        type: SET_POPUP_VISIBLE,
+    }
+};
+export const setPopupVisibleActionCreator = (): Thunk => {
+    return (dispatch) => {
+        dispatch(setPopupVisibleAction());
+    };
+}
+
+export interface SetPopupHiddenAction {
+    type: typeof SET_POPUP_HIDDEN;
+}
+export function setPopupHiddenAction(): SetPopupHiddenAction {
+    return {
+        type: SET_POPUP_HIDDEN,
+    }
+};
+export const setPopupHiddenActionCreator = (): Thunk => {
+    return (dispatch) => {
+        dispatch(setPopupHiddenAction());
+    };
+}
+
+export interface OpenPopupAction {
+    type: typeof OPEN_POPUP;
+    payload: PopupData;
+}
+export function openPopupAction(popup: PopupData): OpenPopupAction {
+    return {
+        type: OPEN_POPUP,
+        payload: popup,
+    }
+};
+export const openPopupActionCreator = (popup: PopupData): Thunk => {
+    return (dispatch) => {
+        dispatch(openPopupAction(popup));
+    };
+}
+
+export interface ClosePopupAction {
+    type: typeof CLOSE_POPUP;
+    payload: string;
+}
+export function closePopupAction(popupId: string): ClosePopupAction {
+    return {
+        type: CLOSE_POPUP,
+        payload: popupId,
+    }
+};
+export const closePopupActionCreator = (popupId: string): Thunk => {
+    return (dispatch) => {
+        dispatch(closePopupAction(popupId));
+    };
+}
+
+export const createDeletePopupActionCreator = (habit: HabitItemProps): Thunk => {
+    return (dispatch, getState) => {
+        dispatch(openPopupAction(createDeletePopup({
+            buttons: [
+                {
+                    id: PopupButtonType.Yes,
+                    title: "Yes",
+                    callback: () => {
+                        dispatch(deleteHabitRestActionCreator(habit));
+                        dispatch(closePopupActionCreator(PopupId.DeletePopup));
+                        selectNavigation(getState()).navigate(routes.MainScreen, {});
+                    },
+                },
+                {
+                    id: PopupButtonType.No,
+                    title: "No",
+                    callback: () => dispatch(closePopupActionCreator(PopupId.DeletePopup))
+                },
+            ],
+        })));
+    };
+}
+
+export enum Priority {
+    Low,
+    Medium,
+    High,
+}
+
 export interface Statistics {
     done: number;
     total: number;
@@ -149,7 +254,8 @@ export interface Statistics {
 export interface State {
     statistics: Statistics;
     habits: List<HabitItemProps>;
-    navigation?: Navigation; 
+    navigation?: Navigation;
+    popups: PopupData[];
 }
 
 // Initial state
@@ -157,6 +263,7 @@ const initialState = {
     statistics: {},
     habits: List<HabitItemProps>(),
     navigation: {},
+    popups: [] as PopupData[],
 } as State;
 
 export type ReducerActions =
@@ -166,6 +273,8 @@ export type ReducerActions =
     | DeleteHabitAction
     | SetNavigationAction
     | SetStatisticsAction
+    | OpenPopupAction
+    | ClosePopupAction
 ;
 
 // Reducer
@@ -202,7 +311,7 @@ export function reducer(state = initialState, action: ReducerActions) {
                 }
                 return false;
             })
-            
+
             return { ...state, habits };
         case ADD_NAVIGATION: {
             return { ...state, navigation: action.payload };
@@ -211,6 +320,30 @@ export function reducer(state = initialState, action: ReducerActions) {
             return {
                 ...state,
                 statistics: action.payload,
+            }
+        }
+        case OPEN_POPUP: {
+            return {
+                ...state,
+                popups: [
+                    ...selectPopups(state),
+                    action.payload,
+                ],
+            }
+        }
+        case CLOSE_POPUP:  {
+            const newPopups = selectPopups(state)
+                .filter(popup => {
+                    if (popup && popup.id === action.payload) {
+                        return false
+                    }
+
+                    return true;
+                });
+
+            return {
+                ...state,
+                popups: newPopups,
             }
         }
         default:

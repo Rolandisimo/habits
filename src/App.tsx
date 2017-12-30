@@ -4,7 +4,7 @@ import { StackNavigator } from "react-navigation";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-import { MainScreen } from "./components/main-screen/MainScreen";
+import { MainScreenConnected } from "./components/main-screen/MainScreen";
 import { reducer as commonReducer, setNavigationActionCreator } from "./ducks/common";
 import { habitRestMiddleware } from "./middleware/habitRest";
 import { ViewHabitConnected } from "./components/habit/components/view-habit/ViewHabit";
@@ -31,11 +31,11 @@ function mapNavigationStateParamsToProps<T extends NavigationOptions>(
 ) {
     return class extends React.Component<T, {}> {
         static navigationOptions = (Component as any).navigationOptions; // better use hoist-non-react-statics
-        componentDidMount() {
+        public componentDidMount() {
             // Save navigation object to store for reuse in other components
             store.dispatch(setNavigationActionCreator(this.props.navigation));
         }
-        render() {
+        public render() {
             return <Component {...this.props} />;
         }
     }
@@ -43,7 +43,7 @@ function mapNavigationStateParamsToProps<T extends NavigationOptions>(
 
 const Stacks = StackNavigator({
     MainScreen: {
-        screen: mapNavigationStateParamsToProps(MainScreen),
+        screen: mapNavigationStateParamsToProps(MainScreenConnected),
         navigationOptions: {
             header: null,
         },
@@ -65,7 +65,6 @@ const Stacks = StackNavigator({
         },
     },
 });
-
 
 export default class App extends React.PureComponent<{}, {}> {
     render() {

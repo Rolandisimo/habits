@@ -25,5 +25,9 @@ export default StyleSheet.create({
     label: {
         fontSize: 20,
         color: "#fff",
-    }
+    },
+    small: {
+        padding: 10,
+        flex: 1,
+    },
 });

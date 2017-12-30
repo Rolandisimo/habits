@@ -1,7 +1,6 @@
 import {
     Middleware,
     MiddlewareAPI,
-    Dispatch,
 } from "redux";
 import { HabitItemProps } from "../components/habit/types";
 import {
@@ -17,6 +16,7 @@ import {
     getDoneHabits,
     sortHabits,
 } from "./utils";
+import { Thunk } from '../types/types';
 
 export const HABIT_ADD = "habitRest/HABIT_ADD";
 export const HABIT_DELETE = "habitRest/HABIT_DELETE";
@@ -34,8 +34,8 @@ export function addHabitRestAction(habit: HabitItemProps): AddHabitRestAction {
         payload: habit,
     }
 };
-export function addHabitRestActionCreator(habit: HabitItemProps) {
-    return (dispatch: Dispatch<any>) => {
+export function addHabitRestActionCreator(habit: HabitItemProps): Thunk {
+    return (dispatch) => {
         dispatch(addHabitRestAction(habit));
     };
 }
@@ -50,8 +50,8 @@ export function deleteHabitRestAction(habit: HabitItemProps): DeleteHabitRestAct
         payload: habit,
     }
 };
-export function deleteHabitRestActionCreator(habit: HabitItemProps) {
-    return (dispatch: Dispatch<any>) => {
+export function deleteHabitRestActionCreator(habit: HabitItemProps): Thunk {
+    return (dispatch) => {
         dispatch(deleteHabitRestAction(habit));
     };
 }
@@ -66,8 +66,8 @@ export function editHabitRestAction(habit: HabitItemProps): EditHabitRestAction 
         payload: habit,
     }
 };
-export function editHabitRestActionCreator(habit: HabitItemProps) {
-    return (dispatch: Dispatch<any>) => {
+export function editHabitRestActionCreator(habit: HabitItemProps): Thunk {
+    return (dispatch) => {
         dispatch(editHabitRestAction(habit));
     };
 }
@@ -80,8 +80,8 @@ export function initHabitsRestAction(): InitHabitsRestAction {
         type: HABITS_INIT,
     }
 };
-export function initHabitRestActionCreator() {
-    return (dispatch: Dispatch<any>) => {
+export function initHabitRestActionCreator(): Thunk {
+    return (dispatch) => {
         dispatch(initHabitsRestAction());
     };
 }

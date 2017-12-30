@@ -13,16 +13,16 @@ import DatePicker from "react-native-datepicker"
 import { HabitPeriodFormGroup } from "../period-form/HabitPeriodFormGroup";
 import { SaveButton } from "../save-button/SaveButton";
 import { DeleteButton } from "../delete-button/DeleteButton";
-import styles, { datePickerCustomStyles} from "./styles";
 import {
     addHabitRestActionCreator,
-    deleteHabitRestActionCreator,
     editHabitRestActionCreator,
 } from "../../../../middleware/habitRest";
 import { routes } from "../../../../../routes";
 import { HabitItemProps } from "../../types";
 import { Navigation } from "../../../../types/General";
 import { periods } from "../period-form/utils";
+import { createDeletePopupActionCreator } from "../../../../ducks/common";
+import styles, { datePickerCustomStyles} from "./styles";
 
 export interface CreateHabitState {
     isKeyboardOpen: boolean;
@@ -39,7 +39,7 @@ export interface CreateHabitStateProps {
 export interface CreateHabitDispatchProps {
     addHabit: typeof addHabitRestActionCreator;
     editHabit: typeof editHabitRestActionCreator;
-    deleteHabit: typeof deleteHabitRestActionCreator;
+    deleteHabit: typeof createDeletePopupActionCreator;
 }
 export interface CreateHabitOwnProps {
     habit?: HabitItemProps;
@@ -222,7 +222,6 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
     onDelete() {
         if (this.params.habit) {
             this.props.deleteHabit(this.params.habit as HabitItemProps);
-            this.props.navigation.navigate(routes.MainScreen, {});
         }
     }
 }
@@ -230,7 +229,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
 const mapDispatchToProps: CreateHabitDispatchProps = {
     addHabit: addHabitRestActionCreator,
     editHabit: editHabitRestActionCreator,
-    deleteHabit: deleteHabitRestActionCreator,
+    deleteHabit: createDeletePopupActionCreator,
 };
 
 export const CreateHabitConnected = connect<{}, CreateHabitDispatchProps>(
