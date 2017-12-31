@@ -2,20 +2,18 @@ import {
     StyleSheet,
     Dimensions,
 } from "react-native";
+import { sizes, colors } from '../consts';
 
 const buttonWidth = Dimensions.get("window").width / 2;
 
 export default StyleSheet.create({
     button: {
         alignSelf: "center",
-        shadowColor: "rgba(189, 195, 199, 0.7)",
+        shadowColor: colors.shadowColor,
         shadowOpacity: 1.0,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
+        shadowOffset: sizes.shadowOffset,
         borderWidth: 1,
-        borderColor: "#e7e7e7",
+        borderColor: colors.lightBorderColor,
         borderRadius: 5,
         margin: 10,
         padding: 20,

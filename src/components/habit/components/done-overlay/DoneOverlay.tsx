@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import styles from "./styles";
+import { colors } from '../../../consts';
 
 export interface DoneOverlayProps {
     done: boolean;
@@ -16,7 +17,7 @@ export class DoneOverlay extends React.PureComponent<DoneOverlayProps, {}> {
             <View style={styles.doneOverlay}>
                 <FAIcon
                     name="check"
-                    color="rgba(46, 204, 113, .8)"
+                    color={colors.successColor}
                     size={30}
                 />
             </View>

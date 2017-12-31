@@ -1,9 +1,8 @@
-//@ts-check
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     doneOverlay: {
-        backgroundColor: "rgba(255, 255, 255, .8)",
+        backgroundColor: "rgba(255, 255, 255, .9)",
         position: "absolute",
         top: 0,
         left: 0,

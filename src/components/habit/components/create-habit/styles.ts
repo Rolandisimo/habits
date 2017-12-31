@@ -2,17 +2,14 @@ import {
     StyleSheet,
     Dimensions,
 } from "react-native";
+import { colors, sizes } from "../../../consts";
 
 const padding = 20;
-const inputHeight = Dimensions.get("window").width / 5;
 const datePickerWidth = Dimensions.get("window").width - 60; // padding 20 * 2 + margin 10 * 2
 const shadowStyles = {
-    shadowColor: "rgba(189, 195, 199, 0.7)",
+    shadowColor: colors.shadowColor,
     shadowOpacity: 1.0,
-    shadowOffset: {
-        width: 0,
-        height: 2,
-    },
+    shadowOffset: sizes.shadowOffset,
 };
 export default StyleSheet.create({
     container: {
@@ -23,13 +20,13 @@ export default StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: "#e7e7e7",
+        borderColor: colors.lightBorderColor,
         backgroundColor: "#fff",
         borderRadius: 2,
         padding,
         margin: 0,
         marginBottom: 10,
-        height: inputHeight,
+        height: sizes.inputHeight,
         ...shadowStyles,
     },
     formGroup: {
@@ -52,7 +49,7 @@ export default StyleSheet.create({
         ...shadowStyles,
         width: datePickerWidth,
         borderRadius: 2,
-        height: inputHeight,
+        height: sizes.inputHeight,
         backgroundColor: "#fff",
     },
     radio: {
@@ -70,7 +67,7 @@ export default StyleSheet.create({
 export const datePickerCustomStyles = {
     dateInput: {
         borderWidth: 0,
-        height: inputHeight,
+        height: sizes.inputHeight,
         ...shadowStyles,
     },
 };

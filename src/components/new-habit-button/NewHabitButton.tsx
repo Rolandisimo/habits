@@ -5,7 +5,7 @@ import { throttle } from "lodash";
 import { Navigation } from "../../types/General";
 import { selectNavigation } from "../../ducks/common";
 import { routes } from '../../../routes';
-import { buttonColor } from "./styles";
+import { colors } from '../consts';
 
 export interface NewHabitButtonProps {
     navigation: Navigation;
@@ -21,7 +21,7 @@ export class NewHabitButton extends React.PureComponent<NewHabitButtonProps, {}>
     render() {
         return (
             <ActionButton
-                buttonColor={buttonColor}
+                buttonColor={colors.dangerColor}
                 onPress={throttle(this.onPress, 500, { trailing: false })}
             />
         );

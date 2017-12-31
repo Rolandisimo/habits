@@ -1,13 +1,14 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { colors } from '../consts';
 
 const containerHeight = Dimensions.get("window").height / 4;
 
 export default StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(78,205,196, .7)',
+    backgroundColor: colors.mainColor,
     justifyContent: 'center',
-    shadowColor: "rgba(189, 195, 199, 0.9)", // TODO: Move colors to styles/consts.ts
+    shadowColor: colors.shadowColor,
     shadowOpacity: 1.0,
     shadowOffset: {
       width: 0,
@@ -35,11 +36,6 @@ export default StyleSheet.create({
   regularValue: {
     fontSize: 55,
     fontWeight: "100",
-  },
-  divide: {
-    height: containerHeight,
-    width: 1,
-    backgroundColor: "rgba(34, 49, 63, .7)",
   },
   title: {
     fontSize: 16,

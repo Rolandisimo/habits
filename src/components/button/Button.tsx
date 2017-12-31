@@ -5,6 +5,7 @@ import {
     GestureResponderEvent,
 } from "react-native";
 import styles from "./styles";
+import { colors } from '../consts';
 
 
 export enum ButtonTheme {
@@ -28,7 +29,7 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
         const buttonStyles = [
             styles.button,
             this.props.theme === ButtonTheme.Small ? styles.small : undefined,
-            { backgroundColor: this.props.color ? this.props.color : "green" },
+            { backgroundColor: this.props.color ? this.props.color : colors.successColor },
         ];
 
         return (

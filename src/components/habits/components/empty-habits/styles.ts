@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from '../../../consts';
 
 export default StyleSheet.create({
     container: {
@@ -11,7 +12,7 @@ export default StyleSheet.create({
     },
     message: {
         fontSize: 25,
-        color: "#BABABA",
+        color: colors.backgroundTextColor,
         textAlign: "center",
     },
 });

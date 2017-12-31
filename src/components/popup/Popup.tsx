@@ -9,6 +9,7 @@ import {
 import { PopupData, PopupButton, PopupButtonType } from './factory/PopupData';
 import { Button, ButtonTheme } from '../button/Button';
 import { styles } from "./styles";
+import { colors } from '../consts';
 
 export interface PopupDispatchProps {
     hidePopup: typeof closePopupActionCreator;
@@ -93,7 +94,7 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
                         buttonData.callback();
                     }}
                     theme={ButtonTheme.Small}
-                    color={buttonData.id === PopupButtonType.Yes ? "green" : "grey"}
+                    color={buttonData.id === PopupButtonType.Yes ? colors.primaryButtonColor : colors.secondaryButtonColor}
                 />
             );
         }

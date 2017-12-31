@@ -1,28 +1,26 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
+import { colors, sizes } from "../../components/consts";
 
 export default StyleSheet.create({
     container: {
         borderWidth: 1,
-        borderColor: "#e7e7e7",
+        borderColor: colors.lightBorderColor,
         borderRadius: 2,
         padding: 20,
         margin: 10,
         marginBottom: 0,
-        height: Dimensions.get("window").width / 5,
-        shadowColor: "rgba(189, 195, 199, 0.7)",
+        height: sizes.inputHeight,
+        shadowColor: colors.shadowColor,
         shadowOpacity: 1.0,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
+        shadowOffset: sizes.shadowOffset,
     },
     habit: {
+        flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        flex: 1,
     },
     habitName: {
-        width: Dimensions.get("window").width / 2,
+        width: sizes.inputTextMaxLength,
     },
 });

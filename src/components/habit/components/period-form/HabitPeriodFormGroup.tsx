@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import RadioForm from "react-native-simple-radio-button";
 import { periods, getSelectedPeriod } from "./utils";
+import { colors } from '../../../consts';
 import styles from "./styles";
 
 
@@ -38,6 +39,7 @@ export class HabitPeriodFormGroup extends React.PureComponent<HabitPeriodFormGro
                 radio_props={periods}
                 initial={getSelectedPeriod(period)}
                 onPress={onPress}
+                buttonColor={colors.mainColor}
             />
         )
         : (

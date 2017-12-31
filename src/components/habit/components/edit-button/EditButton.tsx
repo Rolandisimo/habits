@@ -1,5 +1,6 @@
 import React  from "react";
 import { Button, ButtonProps } from "../../../button/Button";
+import { colors } from '../../../consts';
 
 export class EditButton extends React.PureComponent<Pick<ButtonProps, "onPress">, {}> {
     render() {
@@ -7,7 +8,7 @@ export class EditButton extends React.PureComponent<Pick<ButtonProps, "onPress">
             <Button
                 onPress={this.props.onPress}
                 label="Edit"
-                color="orange"
+                color={colors.warningColor}
             />
         );
     }
