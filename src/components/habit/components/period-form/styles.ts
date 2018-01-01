@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { sizes, colors, BASE_FONT_SIZE } from '../../../consts';
+import { sizes, colors } from '../../../consts';
 
 const padding = 20;
 

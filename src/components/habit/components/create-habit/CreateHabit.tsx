@@ -23,6 +23,7 @@ import { Navigation } from "../../../../types/General";
 import { periods } from "../period-form/utils";
 import { createDeletePopupActionCreator } from "../../../../ducks/common";
 import { styles, datePickerCustomStyles} from "./styles";
+import { colors } from '../../../consts';
 
 export interface CreateHabitState {
     isKeyboardOpen: boolean;
@@ -157,9 +158,10 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
                     {DateComponent}
                 </View>
                 { !isNew && (
-                    <View style={styles.formGroup}>
-                        <Text style={styles.label}>Done?</Text>
+                    <View style={styles.formGroupHorizontal}>
+                        <Text style={styles.labelHorizontal}>Done?</Text>
                         <Switch
+                            onTintColor={colors.mainColor}
                             value={this.newHabit.done}
                             onValueChange={this.onDoneChange}
                         />

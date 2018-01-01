@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import {
-    colors,
     sizes,
     BASE_FONT_SIZE,
     inputGeneralStyles,
@@ -22,8 +21,17 @@ export const styles = StyleSheet.create({
         margin: 10,
         flexDirection: "column",
     },
+    formGroupHorizontal: {
+        margin: 10,
+        flexDirection: "row",
+        alignItems: "center",
+    },
     label: {
         marginBottom: 5,
+        fontWeight: "200",
+    },
+    labelHorizontal: {
+        marginRight: 10,
         fontWeight: "200",
     },
     datePicker: {
