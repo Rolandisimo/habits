@@ -8,11 +8,14 @@ import {
 } from "react-native";
 import DatePicker from "react-native-datepicker"
 import { EditButton } from "../edit-button/EditButton";
-import styles, { datePickerCustomStyles } from "./styles";
 import { editHabitActionCreator } from "../../../../ducks/common";
 import { routes } from "../../../../../routes";
 import { Navigation } from "../../../../types/General";
 import { HabitPeriodFormGroup } from "../period-form/HabitPeriodFormGroup";
+import {
+    habitViewScreenStyles as styles,
+    datePickerCustomStyles,
+} from "../../styles";
 
 export interface ViewHabitDispatchProps {
     editHabit: typeof editHabitActionCreator;

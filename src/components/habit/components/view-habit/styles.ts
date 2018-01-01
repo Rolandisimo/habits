@@ -1,35 +1,22 @@
 import {
     StyleSheet,
-    Dimensions,
 } from "react-native";
+import {
+    sizes,
+    BASE_FONT_SIZE,
+    inputGeneralStyles,
+} from '../../../consts';
 
-const padding = 20;
-const inputHeight = Dimensions.get("window").width / 5;
-const datePickerWidth = Dimensions.get("window").width - 60; // padding 20 * 2 + margin 10 * 2
-const shadowStyles = {
-    shadowColor: "rgba(189, 195, 199, 0.7)",
-    shadowOpacity: 1.0,
-    shadowOffset: {
-        width: 0,
-        height: 2,
-    },
-};
 export default StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        margin: 1,
         alignItems: "center",
+        margin: 1,
     },
     input: {
-        borderWidth: 1,
-        borderColor: "#e7e7e7",
-        borderRadius: 2,
-        padding,
-        margin: 0,
-        marginBottom: 10,
-        height: inputHeight,
-        ...shadowStyles,
+        ...inputGeneralStyles,
+        padding: sizes.inputPadding,
     },
     formGroup: {
         margin: 10,
@@ -40,22 +27,42 @@ export default StyleSheet.create({
         fontWeight: "200",
     },
     datePicker: {
-        padding,
-        ...shadowStyles,
-        width: datePickerWidth,
-        borderRadius: 2,
-        height: inputHeight,
-        backgroundColor: "#fff",
+        ...inputGeneralStyles,
     },
     buttonWrapper: {
         marginTop: 50,
         marginBottom: 20,
     },
 });
+
 export const datePickerCustomStyles = {
     dateInput: {
         borderWidth: 0,
-        height: inputHeight,
-        ...shadowStyles,
+        flex: 1,
+        padding: 0,
+        margin: 0,
+        height: sizes.inputHeight,
+        flexDirection: "row",
+        flexShrink: 0,
+    },
+    disabled: {
+        flex: 1,
+        padding: 0,
+        margin: 0,
+        height: sizes.inputHeight,
+        flexDirection: "row",
+        // flexShrink: 0,
+    },
+    dateTouchBody: {
+        flex: 1,
+        padding: 0,
+        margin: 0,
+        height: sizes.inputHeight,
+        flexDirection: "row"
+    },
+    dateText: {
+        fontSize: BASE_FONT_SIZE,
+        padding: 0,
+        margin: 0,
     },
 };

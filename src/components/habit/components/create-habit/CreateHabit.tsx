@@ -22,7 +22,7 @@ import { HabitItemProps } from "../../types";
 import { Navigation } from "../../../../types/General";
 import { periods } from "../period-form/utils";
 import { createDeletePopupActionCreator } from "../../../../ducks/common";
-import styles, { datePickerCustomStyles} from "./styles";
+import { styles, datePickerCustomStyles} from "./styles";
 
 export interface CreateHabitState {
     isKeyboardOpen: boolean;

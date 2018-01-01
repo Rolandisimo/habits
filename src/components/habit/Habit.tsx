@@ -12,7 +12,7 @@ import { DoneOverlay } from "./components/done-overlay/DoneOverlay";
 import { Navigation } from "../../types/General";
 import { HabitItemProps } from "./types";
 import { routes } from '../../../routes';
-import styles from "./styles";
+import { styles } from "./styles";
 
 export interface HabitOwnProps {
     habit: HabitItemProps;

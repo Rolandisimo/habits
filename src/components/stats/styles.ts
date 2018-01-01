@@ -1,19 +1,14 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { colors } from '../consts';
+import { colors, sizes } from "../consts";
 
 const containerHeight = Dimensions.get("window").height / 4;
 
 export default StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: colors.mainColor,
-    justifyContent: 'center',
-    shadowColor: colors.shadowColor,
-    shadowOpacity: 1.0,
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
+    justifyContent: "center",
+   ...sizes.shadowStyles,
     zIndex: 10,
     height: containerHeight,
   },
@@ -24,8 +19,8 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
   statistic: {
-    justifyContent: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    flexDirection: "row",
     padding: 0,
     alignItems: "center",
   },

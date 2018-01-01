@@ -9,9 +9,7 @@ const buttonWidth = Dimensions.get("window").width / 2;
 export default StyleSheet.create({
     button: {
         alignSelf: "center",
-        shadowColor: colors.shadowColor,
-        shadowOpacity: 1.0,
-        shadowOffset: sizes.shadowOffset,
+        ...sizes.shadowStyles,
         borderWidth: 1,
         borderColor: colors.lightBorderColor,
         borderRadius: 5,

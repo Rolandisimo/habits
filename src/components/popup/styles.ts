@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { sizes } from '../consts';
 
 const modalHeight = Dimensions.get("window").height / 3;
 const modalWidth = Dimensions.get("window").width - 40;
@@ -16,11 +17,7 @@ export const styles = StyleSheet.create({
         flexGrow: 0,
         width: modalWidth,
         backgroundColor: "#fff",
-        shadowOffset: {
-            height: 2,
-            width: 0,
-        },
-        shadowOpacity: .8,
+        ...sizes.shadowStyles,
         alignItems: "center",
         justifyContent: "space-around",
         alignSelf: "center",
