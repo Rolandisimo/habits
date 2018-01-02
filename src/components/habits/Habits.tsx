@@ -1,5 +1,5 @@
-import { List } from "immutable";
 import React from "react";
+import { List } from "immutable";
 import { VirtualizedList } from "react-native";
 import { connect } from "react-redux";
 import { HabitConnected } from "../habit/Habit";

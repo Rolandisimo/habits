@@ -53,7 +53,7 @@ export class HabitPeriodFormGroup extends React.PureComponent<HabitPeriodFormGro
 
         return (
             <View style={styles.formGroup}>
-                <Text style={styles.label}>Period</Text>
+                <Text style={styles.label}>Learning Period</Text>
                 {PeriodBodyComponent}
             </View>
         );

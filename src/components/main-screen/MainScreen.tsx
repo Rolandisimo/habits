@@ -8,7 +8,8 @@ import { Navigation } from "../../types/General";
 import { PopupConnected } from "../popup/Popup";
 import { selectPopups } from '../../ducks/common';
 import { PopupData } from '../popup/factory/PopupData';
-import styles from "./styles";
+import { FilterBar } from '../filter-bar/FilterBar';
+import { styles } from "./styles";
 
 export interface MainScreenStateProps {
     popups: PopupData[];
@@ -30,6 +31,7 @@ export class MainScreen extends React.Component<MainScreenProps,  {}> {
         return (
             <View style={styles.container}>
                 <StatsConnected />
+                <FilterBar />
                 <HabitsConnected />
                 <NewHabitButtonConnected />
                 { this.props.popups.length > 0 && (

@@ -43,4 +43,5 @@ export const inputGeneralStyles = {
     height: sizes.inputHeight,
     width: sizes.inputWidth,
     ...sizes.shadowStyles,
+    fontSize: BASE_FONT_SIZE,
 }

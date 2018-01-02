@@ -25,6 +25,7 @@ export const styles = StyleSheet.create({
         margin: 10,
         marginBottom: 0,
         height: sizes.inputHeight,
+        backgroundColor: "#fff",
         ...sizes.shadowStyles,
     },
     habit: {
