@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { HabitItemProps } from "../components/habit/types";
+import { historyDate, keyExists } from './utils';
 
 export class HabitModel {
     habit: HabitItemProps;
@@ -32,9 +33,26 @@ export class HabitModel {
         }
     }
 
-    static async findById(id: string) {
-        const habit: HabitItemProps = JSON.parse(await AsyncStorage.getItem(id));
-        return new HabitModel(habit);
+
+    static async updateTodayDone(habit: HabitItemProps, done: boolean) {
+        try {
+            const record = {
+                [historyDate()]: done,
+            };
+
+            const keys = await AsyncStorage.getAllKeys();
+            if (keyExists(keys, `habit:${habit.id}:history`)) {
+                await AsyncStorage.mergeItem(`habit:${habit.id}:history`, JSON.stringify(record));
+            } else {
+                await AsyncStorage.setItem(`habit:${habit.id}:history`, JSON.stringify(record));
+            }
+            return true;
+        } catch (error) {
+            window.setTimeout(() => {
+                throw new Error("HabitModel.updateTodayDone() error: " + error)
+            })
+            return false;
+        }
     }
 
     static async create(habit: HabitItemProps) {
@@ -62,7 +80,7 @@ export class HabitModel {
         // AsyncStorage.clear();
         // Notifications.cancelAllScheduledNotificationsAsync();
 
-        const keys = await HabitModel.listIds();
+        const keys = await HabitModel.listHabitKeys();
         const multiGetElements = await AsyncStorage.multiGet(keys, (_, stores) => {
             return stores;
         });
@@ -74,13 +92,16 @@ export class HabitModel {
         return elements;
     }
 
-    static async listIds() {
+    static async listHabitKeys() {
         try {
             const keys = await AsyncStorage.getAllKeys();
-            return keys;
+            return keys.filter((key) => {
+                const segments = key.split(":");
+                return (segments[0] === "habit" && segments.length == 2);
+            });
         } catch (error) {
             window.setTimeout(() => {
-                throw new Error("HabitModel.listIds() error: " + error)
+                throw new Error("HabitModel.listHabitKeys() error: " + error)
             })
             return [];
         }
