@@ -9,7 +9,6 @@ import { periods, getSelectedPeriod } from "./utils";
 import { colors } from '../../../consts';
 import styles from "./styles";
 
-
 export interface HabitPeriodFormGroupDefaultProps {
     period: number,
     isEditing: boolean,

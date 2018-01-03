@@ -7,7 +7,7 @@ import {
     selectPopups,
 } from '../../ducks/common';
 import { PopupData, PopupButton, PopupButtonType } from './factory/PopupData';
-import { Button, ButtonTheme } from '../button/Button';
+import { Button, ButtonTheme, CustomStyles } from '../button/Button';
 import { styles } from "./styles";
 import { colors } from '../consts';
 
@@ -86,6 +86,16 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
     private renderButton(buttonData: PopupButton) {
         const lastPopup = this.state.lastPopup;
         if (lastPopup) {
+            const isPrimaryButton = buttonData.id === PopupButtonType.Yes;
+            const customStyles: CustomStyles = !isPrimaryButton ? {
+                button: {
+                    backgroundColor: "transparent",
+                    borderColor: colors.mainDark, 
+                },
+                label: {
+                    color: colors.mainDark, 
+                },
+            } : {};
             return (
                 <Button
                     label={buttonData.title}
@@ -94,7 +104,7 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
                         buttonData.callback();
                     }}
                     theme={ButtonTheme.Small}
-                    color={buttonData.id === PopupButtonType.Yes ? colors.primaryButtonColor : colors.secondaryButtonColor}
+                    customStyles={customStyles}
                 />
             );
         }

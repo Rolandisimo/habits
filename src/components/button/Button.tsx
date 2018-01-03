@@ -5,31 +5,51 @@ import {
     GestureResponderEvent,
 } from "react-native";
 import styles from "./styles";
-import { colors } from '../consts';
-
 
 export enum ButtonTheme {
     Small = "small",
     Default = "default",
 }
-export interface ButtonProps {
+
+export interface CustomStyles {
+    button?: {
+        borderColor: string;
+        backgroundColor: string;
+    };
+    label?: {
+        color: string;
+    };
+};
+export interface ButtonDefaultProps {
+    customStyles: CustomStyles;
+    theme: ButtonTheme;
+}
+export interface ButtonProps extends Partial<ButtonDefaultProps> {
     onPress: (event?: GestureResponderEvent) => void;
     label: string;
-    color?: string;
     disabled?: boolean;
-    theme?: ButtonTheme;
 }
 
+export type ButtonPropsWithDefaults = ButtonProps & ButtonDefaultProps;
+
 export class Button extends React.PureComponent<ButtonProps, {}> {
-    public defaultProps = {
+    public static defaultProps = {
         theme: ButtonTheme.Default,
+        customStyles: {},
     }
-    render() {
+    public render() {
+        const {
+            customStyles,
+        } = this.props as ButtonPropsWithDefaults;
 
         const buttonStyles = [
             styles.button,
             this.props.theme === ButtonTheme.Small ? styles.small : undefined,
-            { backgroundColor: this.props.color ? this.props.color : colors.successColor },
+            customStyles.button,
+        ];
+        const labelStyles = [
+            styles.label,
+            customStyles.label,
         ];
 
         return (
@@ -39,7 +59,7 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
                 style={buttonStyles}
                 onPress={this.props.onPress}
             >
-                <Text style={styles.label}>{this.props.label}</Text>
+                <Text style={labelStyles}>{this.props.label}</Text>
             </TouchableOpacity>
         );
     }

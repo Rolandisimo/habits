@@ -15,18 +15,18 @@ import styles from "./styles";
 export type StatsProps = Statistics;
 
 export class Stats extends React.PureComponent<StatsProps, {}> {
-    static defaultProps = {
+    public static defaultProps = {
         done: 0,
         total: 0,
     };
 
-    constructor(props: StatsProps) {
+    public constructor(props: StatsProps) {
         super(props);
 
         this.renderStatistic = this.renderStatistic.bind(this);
     }
 
-    render() {
+    public render() {
         return (
             <View style={styles.container}>
                 {
@@ -40,7 +40,7 @@ export class Stats extends React.PureComponent<StatsProps, {}> {
         );
     }
 
-    renderStatistic(title: string, progress: number, total: number) {
+    private renderStatistic(title: string, progress: number, total: number) {
         return (
             <View style={styles.statisticContainer}>
                 <Text style={styles.title}>{title}</Text>

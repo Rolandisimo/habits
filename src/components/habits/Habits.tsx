@@ -17,11 +17,11 @@ export interface HabitsProps {
 }
 
 export class Habits extends React.Component<HabitsProps, {}> {
-    static defaultProps = {
+    public static defaultProps = {
         habits: List([])
     };
 
-    constructor(props: HabitsProps) {
+    public constructor(props: HabitsProps) {
         super(props);
 
         this.renderHabit = this.renderHabit.bind(this);
@@ -29,7 +29,7 @@ export class Habits extends React.Component<HabitsProps, {}> {
         this.getHabitKey = this.getHabitKey.bind(this);
         this.getHabit = this.getHabit.bind(this);
     }
-    render() {
+    public render() {
         if (!this.props.habits.size) {
             return <EmptyHabits />;
         }
@@ -45,19 +45,19 @@ export class Habits extends React.Component<HabitsProps, {}> {
         );
     }
 
-    renderHabit(habit: ListItem) {
+    private renderHabit(habit: ListItem) {
         return <HabitConnected habit={habit.item} />;
     }
 
-    getHabit(data: List<HabitItemProps>, i: number) {
+    private getHabit(data: List<HabitItemProps>, i: number) {
         return data.get(i);
     }
 
-    getHabitsCount(data: List<HabitItemProps>) {
+    private getHabitsCount(data: List<HabitItemProps>) {
         return data.size;
     }
 
-    getHabitKey(habit: HabitItemProps) {
+    private getHabitKey(habit: HabitItemProps) {
         return habit.id;
     }
 }
