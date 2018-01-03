@@ -159,7 +159,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
                 </View>
                 { !isNew && (
                     <View style={styles.formGroupHorizontal}>
-                        <Text style={styles.labelHorizontal}>Done?</Text>
+                        <Text style={styles.labelHorizontal}>I Learned This Habit</Text>
                         <Switch
                             onTintColor={colors.mainColor}
                             value={this.newHabit.done}
