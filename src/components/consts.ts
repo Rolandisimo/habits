@@ -9,8 +9,10 @@ const shadowColor = "rgba(189, 195, 199, 0.7)";
 export const BASE_FONT_SIZE = 16;
 
 export const colors = {
-    mainColor: "rgba(78,205,196, .7)",
-    successColor: "#2ecc71",
+    mainColor: "rgba(134, 187, 124, 1)",
+    mainDark: "#2c3e50",
+    // successColor: "#2ecc71",
+    successColor: "rgba(134, 187, 124, 1)",
     dangerColor: "#e74c3c",
     shadowColor,
     warningColor: "#f39c12",
@@ -32,6 +34,7 @@ export const sizes = {
             height: 2,
         },
     },
+    iconWidth: 30, // e.g. done overlay check, habit three dots
 };
 
 export const inputGeneralStyles = {

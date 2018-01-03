@@ -4,6 +4,7 @@ import {
     Text,
     View,
     TouchableOpacity,
+    Image,
 } from "react-native";
 import { connect } from "react-redux";
 import { throttle } from "lodash";
@@ -13,6 +14,8 @@ import { Navigation } from "../../types/General";
 import { HabitItemProps } from "./types";
 import { routes } from '../../../routes';
 import { styles } from "./styles";
+
+const iconImage = require("../../assets/three-dots.png");
 
 export interface HabitOwnProps {
     habit: HabitItemProps;
@@ -57,11 +60,7 @@ export class Habit extends React.Component<HabitProps, {}> {
                     >
                         {name}
                     </Text>
-                    <FAIcon
-                        name="ellipsis-h"
-                        color="#e7e7e7"
-                        size={40}
-                    />
+                    <Image source={iconImage} style={styles.icon}/>
                 </View>
             </TouchableOpacity>
         );

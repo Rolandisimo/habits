@@ -1,12 +1,13 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { colors, sizes } from "../consts";
 
-const containerHeight = Dimensions.get("window").height / 4;
+const containerHeight = Dimensions.get("window").height / 5;
 
 export default StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: colors.mainColor,
+    backgroundColor: colors.mainDark,
+    // backgroundColor: "#93F3BA",
     justifyContent: "center",
    ...sizes.shadowStyles,
     zIndex: 10,
@@ -25,15 +26,18 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   primaryValue: {
-    fontSize: 55,
+    fontSize: 50,
+    color: "#fff",
     fontWeight: "100",
   },
   regularValue: {
-    fontSize: 55,
+    fontSize: 50,
+    color: "#fff",
     fontWeight: "100",
   },
   title: {
     fontSize: 16,
+    color: "#fff",
     fontWeight: "100",
   },
 });

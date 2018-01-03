@@ -37,6 +37,11 @@ export const styles = StyleSheet.create({
     habitName: {
         width: sizes.inputTextMaxLength,
     },
+    icon: {
+        width: sizes.iconWidth,
+        height: sizes.iconWidth * 0.28,
+        opacity: .10,
+    },
 });
 
 export const habitViewScreenStyles = StyleSheet.create({

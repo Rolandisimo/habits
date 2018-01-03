@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { sizes } from '../../../consts';
 
 export default StyleSheet.create({
     doneOverlay: {
@@ -15,4 +16,8 @@ export default StyleSheet.create({
         flexDirection: "row",
         padding: 20,
     },
+    icon: {
+        width: sizes.iconWidth, 
+        height: sizes.iconWidth * 0.7129,
+    }
 });
