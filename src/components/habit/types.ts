@@ -5,5 +5,6 @@ export interface HabitItemProps {
     notificationTime: string;
     notificationId?: number;
     done: boolean;
+    finished: boolean;
     createdAt: number;
 }

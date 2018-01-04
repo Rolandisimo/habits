@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { HabitItemProps } from "../components/habit/types";
 import { historyDate, keyExists } from './utils';
+import { Notifications } from 'expo';
 
 export class HabitModel {
     habit: HabitItemProps;
@@ -31,6 +32,17 @@ export class HabitModel {
             })
             return false;
         }
+    }
+
+    // {
+
+    // }
+
+    static async getTodayDone(id: number): Promise<boolean> {
+        const stringifiedResult = await AsyncStorage.getItem(`habit:${id}:history`);
+        const history = JSON.parse(stringifiedResult);
+
+        return typeof history === "object" && !!history[historyDate()];
     }
 
 
@@ -85,11 +97,15 @@ export class HabitModel {
             return stores;
         });
 
-        const elements = multiGetElements.map((_, i, store) => {
-            return JSON.parse(store[i][1]);
-        });
-
-        return elements;
+        return Promise.all(multiGetElements.map(async (_: any, i: number, store: [string, string][]) => {
+            const element: HabitItemProps = JSON.parse(store[i][1]);
+            const done = await HabitModel.getTodayDone(element.id);
+    
+            return Promise.resolve({
+                ...element,
+                done: !!done,
+            });
+        }));
     }
 
     static async listHabitKeys() {
