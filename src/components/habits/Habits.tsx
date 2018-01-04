@@ -3,9 +3,11 @@ import { List } from "immutable";
 import { VirtualizedList } from "react-native";
 import { connect } from "react-redux";
 import { HabitConnected } from "../habit/Habit";
-import { selectHabits } from "../../ducks/common";
+import { selectHabits, selectFilter } from "../../ducks/common";
 import { HabitItemProps } from "../habit/types";
 import { EmptyHabits } from './components/empty-habits/EmptyHabits';
+import { Filter } from '../filter-bar/types';
+import { getFilteredHabits } from './utils';
 
 export interface ListItem {
     id: number;
@@ -14,6 +16,7 @@ export interface ListItem {
 
 export interface HabitsProps {
     habits: List<HabitItemProps>;
+    filter: Filter;
 }
 
 export class Habits extends React.Component<HabitsProps, {}> {
@@ -40,7 +43,7 @@ export class Habits extends React.Component<HabitsProps, {}> {
                 getItem={this.getHabit}
                 keyExtractor={this.getHabitKey}
                 renderItem={this.renderHabit}
-                data={this.props.habits}
+                data={getFilteredHabits(this.props.habits, this.props.filter)}
             />
         );
     }
@@ -64,6 +67,7 @@ export class Habits extends React.Component<HabitsProps, {}> {
 
 const mapStateToProps = (state: any): HabitsProps => ({
     habits: selectHabits(state),
+    filter: selectFilter(state),
 });
 
 export const HabitsConnected = connect<HabitsProps, {}>(

@@ -13,6 +13,7 @@ import {
 import { createButton } from "../components/popup/factory/utils";
 import { deleteHabitRestActionCreator } from '../middleware/habitRest';
 import { routes } from '../../routes';
+import { Filter } from '../components/filter-bar/types';
 
 // Habits
 const HABITS_INIT = "habits/HABITS_INIT";
@@ -28,13 +29,15 @@ const SET_POPUP_VISIBLE = "navigation/SET_POPUP_VISIBLE";
 const SET_POPUP_HIDDEN = "navigation/SET_POPUP_HIDDEN";
 const OPEN_POPUP = "navigation/OPEN_POPUP";
 const CLOSE_POPUP = "navigation/CLOSE_POPUP";
+// Filter
+const SET_FILTER = "navigation/SET_FILTER";
 
 // Selectors
 export const selectHabits = (state: any): List<HabitItemProps> => state.habits;
 export const selectDone = (state: any): number => state.statistics.done;
 export const selectTotal = (state: any): number => state.statistics.total;
 export const selectNavigation = (state: any) => state.navigation as Navigation;
-// export const selectPopupVisibility = (state: any): boolean => state.popup.visible;
+export const selectFilter = (state: any): Filter => state.filter;
 export const selectPopups = (state: any): PopupData[] => state.popups;
 
 // Actions/Action Creators
@@ -206,6 +209,22 @@ export const openPopupActionCreator = (popup: PopupData): Thunk => {
     };
 }
 
+export interface SetFilterAction {
+    type: typeof SET_FILTER;
+    payload: Filter;
+}
+export function setFilterAction(filter: Filter): SetFilterAction {
+    return {
+        type: SET_FILTER,
+        payload: filter,
+    }
+};
+export const setFilterActionCreator = (filter: Filter): Thunk => {
+    return (dispatch) => {
+        dispatch(setFilterAction(filter));
+    };
+}
+
 export interface ClosePopupAction {
     type: typeof CLOSE_POPUP;
     payload: string;
@@ -258,6 +277,7 @@ export interface State {
     habits: List<HabitItemProps>;
     navigation?: Navigation;
     popups: PopupData[];
+    filter: Filter,
 }
 
 // Initial state
@@ -266,6 +286,7 @@ const initialState = {
     habits: List<HabitItemProps>(),
     navigation: {},
     popups: [] as PopupData[],
+    filter: Filter.All,
 } as State;
 
 export type ReducerActions =
@@ -277,6 +298,7 @@ export type ReducerActions =
     | SetStatisticsAction
     | OpenPopupAction
     | ClosePopupAction
+    | SetFilterAction
 ;
 
 // Reducer
@@ -345,6 +367,12 @@ export function reducer(state = initialState, action: ReducerActions) {
             return {
                 ...state,
                 popups: newPopups,
+            }
+        }
+        case SET_FILTER: {
+            return {
+                ...state,
+                filter: action.payload,
             }
         }
         default:

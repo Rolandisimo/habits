@@ -1,7 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { HabitItemProps } from "../components/habit/types";
 import { historyDate, keyExists } from './utils';
-import { Notifications } from 'expo';
 
 export class HabitModel {
     habit: HabitItemProps;

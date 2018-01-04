@@ -1,20 +1,28 @@
-import React  from "react";
+import React from "react";
 import {
     View,
     TouchableOpacity,
     Text,
     Animated,
-    GestureResponderEvent,
 } from "react-native";
+import { connect } from 'react-redux';
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import { colors } from '../consts';
+import { Filter } from "./types";
 import {
     styles,
     filterOptionsContainer,
 } from "./styles";
+import { setFilterActionCreator, selectFilter } from "../../ducks/common";
 
-export interface FilterBarProps {
+export interface FilterBarDispatchProps {
+    selectFilter: typeof setFilterActionCreator;
 }
+export interface FilterBarStateProps {
+    filter: Filter;
+}
+
+export type FilterBarProps = FilterBarDispatchProps & FilterBarStateProps;
 
 export interface FilterState {
     isFilterOpen: boolean;
@@ -27,7 +35,9 @@ export class FilterBar extends React.PureComponent<FilterBarProps, FilterState> 
         super(props);
 
         this.onOpenFilterToggle = this.onOpenFilterToggle.bind(this);
-        this.onOptionPress = this.onOptionPress.bind(this);
+        this.onAllPress = this.onAllPress.bind(this);
+        this.onDonePress = this.onDonePress.bind(this);
+        this.onNotDonePress = this.onNotDonePress.bind(this);
 
         this.state = {
             isFilterOpen: false,
@@ -35,6 +45,7 @@ export class FilterBar extends React.PureComponent<FilterBarProps, FilterState> 
             topPositionAnimationValue: new Animated.Value(0),
         }
     }
+
     public render() {
         const filterOptionsContainerStyles = [
             {
@@ -54,7 +65,7 @@ export class FilterBar extends React.PureComponent<FilterBarProps, FilterState> 
                     onPress={this.onOpenFilterToggle}
                 >
                     <Text style={styles.filterLabel}>
-                        Showing: <Text style={styles.filterMode}>All</Text>
+                        Showing: <Text style={styles.filterMode}>{this.props.filter}</Text>
                     </Text>
                     <FAIcon
                         name="caret-down"
@@ -69,19 +80,19 @@ export class FilterBar extends React.PureComponent<FilterBarProps, FilterState> 
                 >
                     <TouchableOpacity
                         style={styles.filterOption}
-                        onPress={this.onOptionPress}
+                        onPress={this.onAllPress}
                     >
                         <Text style={styles.filterOptionLabel}>All</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.filterOption}
-                        onPress={this.onOptionPress}
+                        onPress={this.onDonePress}
                     >
                         <Text style={styles.filterOptionLabel}>Done</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.filterOption}
-                        onPress={this.onOptionPress}
+                        onPress={this.onNotDonePress}
                     >
                          <Text style={styles.filterOptionLabel}>Not Done</Text>
                     </TouchableOpacity>
@@ -133,7 +144,29 @@ export class FilterBar extends React.PureComponent<FilterBarProps, FilterState> 
             ).start();  
         }
     }
-    private onOptionPress(event: GestureResponderEvent) {
-        // Get inner text and set the filter
+    private onNotDonePress() {
+        this.props.selectFilter(Filter.NotDone);
+        this.onOpenFilterToggle();
+    }
+    private onDonePress() {
+        this.props.selectFilter(Filter.Done);
+        this.onOpenFilterToggle();
+    }
+    private onAllPress() {
+        this.props.selectFilter(Filter.All);
+        this.onOpenFilterToggle();
     }
 }
+
+const mapStateToProps = (state: any): FilterBarStateProps => ({
+    filter: selectFilter(state),
+});
+
+const mapDispatchToProps: FilterBarDispatchProps  = {
+    selectFilter: setFilterActionCreator,
+};
+
+export const FilterBarConnected = connect<FilterBarStateProps, FilterBarDispatchProps>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(FilterBar);
