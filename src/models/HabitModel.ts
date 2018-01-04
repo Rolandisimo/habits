@@ -42,7 +42,7 @@ export class HabitModel {
         const stringifiedResult = await AsyncStorage.getItem(`habit:${id}:history`);
         const history = JSON.parse(stringifiedResult);
 
-        return typeof history === "object" && !!history[historyDate()];
+        return history instanceof Object && !!history[historyDate()];
     }
 
 
