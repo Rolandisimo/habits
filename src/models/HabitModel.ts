@@ -34,17 +34,12 @@ export class HabitModel {
         }
     }
 
-    // {
-
-    // }
-
     static async getTodayDone(id: number): Promise<boolean> {
         const stringifiedResult = await AsyncStorage.getItem(`habit:${id}:history`);
         const history = JSON.parse(stringifiedResult);
 
         return history instanceof Object && !!history[historyDate()];
     }
-
 
     static async updateTodayDone(habit: HabitItemProps, done: boolean) {
         try {
