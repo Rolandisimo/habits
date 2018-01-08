@@ -32,6 +32,7 @@ export interface CreateHabitState {
     periodValue: number;
     notificationTimeValue: string;
     done?: boolean;
+    finished?: boolean;
 }
 
 export interface CreateHabitStateProps {
@@ -120,6 +121,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
             period: this.state.periodValue,
             notificationTime: this.state.notificationTimeValue,
             done: !!this.state.done,
+            finished: !!this.state.finished,
             createdAt: habit.createdAt || now,
         };
 
