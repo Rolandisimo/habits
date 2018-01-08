@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TextInput,
-  ScrollView,
+//   ScrollView,
+  FlatList,
 } from "react-native";
 import DatePicker from "react-native-datepicker"
 import { EditButton } from "../edit-button/EditButton";
@@ -25,12 +26,13 @@ export interface ViewHabitOwnProps {
 }
 export type ViewHabitProps = ViewHabitOwnProps & ViewHabitDispatchProps;
 
+export interface FlatListData {
+    component: JSX.Element;
+}
+
 export class ViewHabit extends React.Component<ViewHabitProps, {}> {
     params = this.props.navigation.state.params;
-    constructor(props: ViewHabitProps) {
-        super(props);
-        this.onEdit = this.onEdit.bind(this);
-    }
+    data: FlatListData[] = [];
 
     render() {
         const { habit } = this.params;
@@ -48,30 +50,74 @@ export class ViewHabit extends React.Component<ViewHabitProps, {}> {
             />
         );
 
-        return (
-            <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Name</Text>
-                    <TextInput
-                        editable={false}
-                        defaultValue={habit.name}
-                        placeholder="Make the bed..."
-                        style={styles.input}
-                        value={habit.name}
-                    />
-                </View>
-                <HabitPeriodFormGroup period={habit.period} />
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Notification Time</Text>
-                    {DateComponent}
-                </View>
-                <View style={styles.buttonWrapper}>
-                    <EditButton onPress={this.onEdit} />
-                </View>
-            </ScrollView>
+        const nameFormGroup = (
+            <View style={styles.formGroup}>
+                <Text style={styles.label}>Name</Text>
+                <TextInput
+                    editable={false}
+                    defaultValue={habit.name}
+                    placeholder="Make the bed..."
+                    style={styles.input}
+                    value={habit.name}
+                />
+            </View>
         );
+        const periodFormGroup = <HabitPeriodFormGroup period={habit.period} />;
+        const notificationFormGroup = (
+            <View style={styles.formGroup}>
+                <Text style={styles.label}>Notification Time</Text>
+                {DateComponent}
+            </View>
+        );
+        const buttonFormGroup = (
+            <View style={styles.buttonWrapper}>
+                <EditButton onPress={this.onEdit} />
+            </View>
+        );
+        this.data = [
+            { component: nameFormGroup },
+            { component: periodFormGroup },
+            { component: notificationFormGroup },
+            { component: buttonFormGroup },
+        ];
+
+        return (
+            <FlatList
+                style={styles.container}
+                data={this.data}
+                renderItem={this.renderFormGroup}
+                keyExtractor={this.keyExtractor}
+            />
+        );
+        // return (
+        //     <ScrollView style={styles.container}>
+        //         <View style={styles.formGroup}>
+        //             <Text style={styles.label}>Name</Text>
+        //             <TextInput
+        //                 editable={false}
+        //                 defaultValue={habit.name}
+        //                 placeholder="Make the bed..."
+        //                 style={styles.input}
+        //                 value={habit.name}
+        //             />
+        //         </View>
+        //         <HabitPeriodFormGroup period={habit.period} />
+        //         <View style={styles.formGroup}>
+        //             <Text style={styles.label}>Notification Time</Text>
+        //             {DateComponent}
+        //         </View>
+        //         <View style={styles.buttonWrapper}>
+        //             <EditButton onPress={this.onEdit} />
+        //         </View>
+        //     </ScrollView>
+        // );
     }
-    onEdit() {
+
+    private renderFormGroup = (data: { item: FlatListData }) => {
+        return data.item.component;
+    }
+    private keyExtractor = (_: FlatListData, index: number) =>`${index}`;
+    private onEdit = () => {
         this.props.navigation.navigate(
             routes.CreateHabit,
             {
