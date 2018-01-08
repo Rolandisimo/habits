@@ -108,10 +108,10 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
         switch (action.type) {
             case HABIT_ADD: {
                 HabitModel.create(action.payload).then((habit) => {
-                    setHabitNotification(habit).then((notificationId) => {
+                    setHabitNotification(habit).then((notificationId: string | number) => {
                         const updatedHabit = {
                             ...habit,
-                            notificationId: +notificationId,
+                            notificationId: `${notificationId}`,
                         }
 
                         HabitModel.update(updatedHabit);
@@ -144,10 +144,10 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
                         cancelScheduled(action.payload.notificationId);
                     }
 
-                    setHabitNotification(action.payload).then((notificationId) => {
+                    setHabitNotification(action.payload).then((notificationId: string | number) => {
                         const updatedHabit = {
                             ...action.payload,
-                            notificationId: +notificationId,
+                            notificationId: `${notificationId}`,
                         }
 
                         HabitModel.update(updatedHabit);

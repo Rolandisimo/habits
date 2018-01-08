@@ -50,7 +50,7 @@ export async function setImmediateHabitNotification(habit: HabitItemProps) {
     });
 }
 
-export function cancelScheduled(id: number) {
+export function cancelScheduled(id: string) {
     Notifications.cancelScheduledNotificationAsync(id);
 }
 
