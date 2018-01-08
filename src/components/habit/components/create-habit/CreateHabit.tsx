@@ -135,7 +135,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
         ];
 
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.formGroup}>
                     <Text style={styles.label}>Name</Text>
                     <TextInput

@@ -49,7 +49,7 @@ export class ViewHabit extends React.Component<ViewHabitProps, {}> {
         );
 
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.formGroup}>
                     <Text style={styles.label}>Name</Text>
                     <TextInput
