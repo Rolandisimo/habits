@@ -13,6 +13,7 @@ export class HabitModel {
     static async destroy(habit: HabitItemProps) {
         try {
             await AsyncStorage.removeItem(`habit:${habit.id}`);
+            await AsyncStorage.removeItem(`habit:${habit.id}:history`);
             return true;
         } catch (error) {
             window.setTimeout(() => {
