@@ -75,7 +75,7 @@ export class FilterBar extends React.PureComponent<FilterBarProps, FilterState> 
                     />
                 </TouchableOpacity>
                 <Animated.View
-                    pointerEvents={this.state.isFilterOpen ? "all" : "none"}
+                    pointerEvents={this.state.isFilterOpen ? "auto" : "none"}
                     style={filterOptionsContainerStyles}
                 >
                     <TouchableOpacity
