@@ -8,6 +8,8 @@ import {
     Notifications,
     Permissions,
 } from "expo";
+import { selectNavigation } from '../ducks/common';
+import { routes } from '../../routes';
 
 export const NOTIFICATIONS_INIT = "notifications/NOTIFICATIONS_INIT";
 export const NOTIFICATIONS_PERMISSION = "notifications/NOTIFICATIONS_PERMISSION";
@@ -55,7 +57,7 @@ export type NotificationsMiddlewareAction =
     | NotificationsPermissionAction
 ;
 
-export const notificationsMiddleware = (<S extends PartialState>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
+export const notificationsMiddleware = (<S extends PartialState>({ dispatch, getState }: MiddlewareAPI<S>) => (next: any) => {
     return (action: NotificationsMiddlewareAction) => {
         switch (action.type) {
             case NOTIFICATIONS_PERMISSION: {
@@ -76,13 +78,20 @@ export const notificationsMiddleware = (<S extends PartialState>({ dispatch }: M
             case NOTIFICATIONS_INIT: {
                 console.log("Start listening notifications.")
                 Notifications.addListener((payload: any) => {
-                    console.log(payload);
+                    console.log("PAYLOAD:", payload);
                     switch (payload.origin) {
                         case Origin.Received:
-
+                            
                             break;
                         case Origin.Selected:
-
+                            selectNavigation(getState()).navigate(
+                                routes.ViewHabit,
+                                {
+                                    isNew: false,
+                                    isEditing: true,
+                                    habit: payload.data.habit,
+                                },
+                            );
                             break;
                         default:
                     }

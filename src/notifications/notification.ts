@@ -33,6 +33,23 @@ export async function setHabitNotification(habit: HabitItemProps, repeat=true) {
     ) as number;
 }
 
+export async function setImmediateHabitNotification(habit: HabitItemProps) {
+    return await Notifications.presentLocalNotificationAsync({
+        title: habit.name,
+        body: "It is time to get shit done",
+        data: {
+            habit,
+        },
+        ios: {
+            sound: true,
+        },
+        android: {
+            sound: true,
+            priority: "max",
+        },
+    });
+}
+
 export function cancelScheduled(id: number) {
     Notifications.cancelScheduledNotificationAsync(id);
 }
