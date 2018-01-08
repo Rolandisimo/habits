@@ -1,21 +1,16 @@
 import { StyleSheet } from "react-native";
-import { sizes, colors } from '../../../consts';
-
-const padding = 20;
+import {
+    sizes,
+    inputGeneralStyles,
+} from '../../../consts';
 
 export default StyleSheet.create({
     input: {
-        borderWidth: 1,
-        borderColor: colors.lightBorderColor,
-        borderRadius: 2,
-        padding,
-        margin: 0,
-        marginBottom: 10,
-        height: sizes.inputHeight,
-        ...sizes.shadowStyles,
+        ...inputGeneralStyles,
+        padding: sizes.inputPadding,
     },
     formGroup: {
-        margin: 10,
+        margin: 20,
         flexDirection: "column",
     },
     label: {

@@ -21,9 +21,12 @@ export const colors = {
     lightBorderColor: "#e7e7e7",
     backgroundTextColor: "#bababa",
 };
+
+const offsetFromSides = 40;
 export const sizes = {
     inputHeight: Dimensions.get("window").width / 5,
-    inputWidth: Dimensions.get("window").width - 60,
+    inputWidth: Dimensions.get("window").width - offsetFromSides,
+    screenWidthMinusPadding: Dimensions.get("window").width - 20,
     inputTextMaxLength: Dimensions.get("window").width / 2,
     inputPadding: 20,
     shadowStyles: {

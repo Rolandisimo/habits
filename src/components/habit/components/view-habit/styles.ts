@@ -1,5 +1,6 @@
 import {
     StyleSheet,
+    Dimensions,
 } from "react-native";
 import {
     sizes,
@@ -7,19 +8,19 @@ import {
     inputGeneralStyles,
 } from '../../../consts';
 
-export default StyleSheet.create({
+export const habitViewScreenStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        alignItems: "center",
         margin: 1,
+        width: Dimensions.get("window").width,
     },
     input: {
         ...inputGeneralStyles,
         padding: sizes.inputPadding,
     },
     formGroup: {
-        margin: 10,
+        margin: 20,
         flexDirection: "column",
     },
     label: {
@@ -51,7 +52,6 @@ export const datePickerCustomStyles = {
         margin: 0,
         height: sizes.inputHeight,
         flexDirection: "row",
-        // flexShrink: 0,
     },
     dateTouchBody: {
         flex: 1,

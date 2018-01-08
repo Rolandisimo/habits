@@ -150,11 +150,13 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
                         returnKeyType="done"
                     />
                 </View>
-                <HabitPeriodFormGroup
-                    isEditing={true}
-                    period={habit && habit.period}
-                    onPress={this.onPeriodChange}
-                />
+                <View style={styles.formGroup}>
+                    <HabitPeriodFormGroup
+                        isEditing={true}
+                        period={habit && habit.period}
+                        onPress={this.onPeriodChange}
+                    />
+                </View>
                 <View style={styles.formGroup}>
                     <Text style={styles.label}>Notification Time</Text>
                     {DateComponent}

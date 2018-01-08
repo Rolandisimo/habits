@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import {
     sizes,
     BASE_FONT_SIZE,
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         margin: 1,
-        alignItems: "center",
+        width: Dimensions.get("window").width,
     },
     input: {
         ...inputGeneralStyles,
@@ -18,11 +18,11 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     formGroup: {
-        margin: 10,
+        margin: 20,
         flexDirection: "column",
     },
     formGroupHorizontal: {
-        margin: 10,
+        margin: 20,
         flexDirection: "row",
         alignItems: "center",
     },
