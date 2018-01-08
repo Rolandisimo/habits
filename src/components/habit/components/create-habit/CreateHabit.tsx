@@ -80,6 +80,7 @@ export class CreateHabit extends React.Component<CreateHabitProps, CreateHabitSt
         const { habit } = this.params;
         if (habit.name && habit.period && habit.notificationTime) {
             this.setState({
+                done: habit.done,
                 nameValue: habit.name,
                 periodValue: habit.period,
                 notificationTimeValue: habit.notificationTime,

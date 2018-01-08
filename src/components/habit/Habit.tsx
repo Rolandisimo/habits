@@ -47,7 +47,7 @@ export class Habit extends React.Component<HabitProps, {}> {
         return (
             <TouchableOpacity
                 style={styles.container}
-                onPress={!done ? throttle(this.onPress, 500, { trailing: false }) : undefined}
+                onPress={throttle(this.onPress, 500, { trailing: false })}
                 activeOpacity={0.5}
             >
                 <DoneOverlay done={done} />
