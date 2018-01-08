@@ -12,8 +12,8 @@ export class HabitModel {
 
     static async destroy(habit: HabitItemProps) {
         try {
-            await AsyncStorage.removeItem(`habit:${habit.id}`);
             await AsyncStorage.removeItem(`habit:${habit.id}:history`);
+            await AsyncStorage.removeItem(`habit:${habit.id}`);
             return true;
         } catch (error) {
             window.setTimeout(() => {
@@ -26,6 +26,7 @@ export class HabitModel {
     static async update(habit: HabitItemProps) {
         try {
             await AsyncStorage.mergeItem(`habit:${habit.id}`, JSON.stringify(habit));
+            await HabitModel.updateTodayDone(habit, habit.done);
             return true;
         } catch (error) {
             window.setTimeout(() => {

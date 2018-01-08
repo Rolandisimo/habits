@@ -14,6 +14,7 @@ import { createButton } from "../components/popup/factory/utils";
 import { deleteHabitRestActionCreator } from '../middleware/habitRest';
 import { routes } from '../../routes';
 import { Filter } from '../components/filter-bar/types';
+import { getDoneHabits } from './utils';
 
 // Habits
 const HABITS_INIT = "habits/HABITS_INIT";
@@ -96,13 +97,8 @@ export function editHabitActionCreator(habit: HabitItemProps): Thunk {
         // TODO: Move mutation to middleware
         if (habit.done) {
             const state = getState();
-            const doneHabits = selectHabits(state)
-                .filter(habit => {
-                    if (habit && habit.done) {
-                        return true;
-                    }
-                    return false;
-                });
+            const doneHabits = getDoneHabits(selectHabits(state));
+
             dispatch(setStatisticsAction({
                 done: doneHabits.size,
                 total: selectTotal(state),
@@ -126,8 +122,10 @@ export function deleteHabitActionCreator(id: number): Thunk {
         dispatch(deleteHabitAction(id));
 
         const state = getState();
+        const doneHabits = getDoneHabits(selectHabits(state));
+
         dispatch(setStatisticsAction({
-            done: selectDone(state),
+            done: doneHabits.size,
             total: selectHabits(state).size,
         }));
     };
