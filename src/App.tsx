@@ -10,7 +10,11 @@ import { ViewHabitConnected } from "./components/habit/components/view-habit/Vie
 import { CreateHabitConnected } from "./components/habit/components/create-habit/CreateHabit";
 import { Navigation } from "./types/General";
 import { habitRestMiddleware, initHabitRestActionCreator } from "./middleware/habitRest";
-import { notificationsMiddleware, notificationsInitActionCreator } from "./middleware/notifications";
+import { 
+    notificationsMiddleware, 
+    notificationsInitActionCreator,
+    notificationsPermissionActionCreator,
+} from "./middleware/notifications";
 
 const store = createStore(
     commonReducer as any, // TODO: Fix incompatible type
@@ -22,6 +26,7 @@ const store = createStore(
 );
 store.dispatch(initHabitRestActionCreator());
 store.dispatch(notificationsInitActionCreator());
+store.dispatch(notificationsPermissionActionCreator());
 
 export interface NavigationOptions {
     navigation: Navigation,

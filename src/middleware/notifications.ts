@@ -4,10 +4,13 @@ import {
     Dispatch,
 } from "redux";
 // import { HabitItemProps } from "../components/habit/types";
-import { Notifications } from "expo";
-import { HabitModel } from "../models/HabitModel";
+import { 
+    Notifications,
+    Permissions,
+} from "expo";
 
 export const NOTIFICATIONS_INIT = "notifications/NOTIFICATIONS_INIT";
+export const NOTIFICATIONS_PERMISSION = "notifications/NOTIFICATIONS_PERMISSION";
 
 export interface NotificationsInitAction {
     type: typeof NOTIFICATIONS_INIT;
@@ -23,6 +26,20 @@ export function notificationsInitActionCreator() {
     };
 }
 
+export interface NotificationsPermissionAction {
+    type: typeof NOTIFICATIONS_PERMISSION;
+}
+export function notificationsPermissionAction(): NotificationsPermissionAction {
+    return {
+        type: NOTIFICATIONS_PERMISSION,
+    }
+};
+export function notificationsPermissionActionCreator() {
+    return (dispatch: Dispatch<any>) => {
+        dispatch(notificationsPermissionAction());
+    };
+}
+
 
 // TODO: Add typings, bitch
 export enum Origin {
@@ -35,11 +52,27 @@ export interface PartialState {
 
 export type NotificationsMiddlewareAction =
     | NotificationsInitAction
+    | NotificationsPermissionAction
 ;
 
 export const notificationsMiddleware = (<S extends PartialState>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
     return (action: NotificationsMiddlewareAction) => {
         switch (action.type) {
+            case NOTIFICATIONS_PERMISSION: {
+                console.log('Asking for permissions');
+                // Should be: Permissions.NOTIFICATIONS
+                Permissions.getAsync('remoteNotifications').then((getStatus) => {
+                    // status === 'granted'
+                    // status === 'undetermined'
+                    if (getStatus.status !== 'granted') {
+                        Permissions.askAsync('remoteNotifications').then((askStatus) => {
+                            if (askStatus.status !== 'granted') {
+                                alert("SUKA DAJ PERMISIJI!");
+                            }
+                        });
+                    }
+                });
+            }
             case NOTIFICATIONS_INIT: {
                 console.log("Start listening notifications.")
                 Notifications.addListener((payload: any) => {
