@@ -15,6 +15,7 @@ import {
     notificationsInitActionCreator,
     notificationsPermissionActionCreator,
 } from "./middleware/notifications";
+import { ScreenOrientation } from 'expo';
 
 const store = createStore(
     commonReducer as any, // TODO: Fix incompatible type
@@ -27,6 +28,7 @@ const store = createStore(
 store.dispatch(initHabitRestActionCreator());
 store.dispatch(notificationsInitActionCreator());
 store.dispatch(notificationsPermissionActionCreator());
+ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT_UP);
 
 export interface NavigationOptions {
     navigation: Navigation,
