@@ -159,6 +159,7 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
             case HABITS_INIT: {
                 HabitModel.all().then((response) => {
                     const sortedHabits = sortHabits(response);
+                    // setImmediateHabitNotification(sortedHabits[0]);
                     // Add today done and today goal
                     const statistics: Statistics = {
                         done: getDoneHabits(sortedHabits).length,
