@@ -8,11 +8,7 @@ import {
     Notifications,
     Permissions,
 } from "expo";
-import {
-    selectNavigation,
-    createDoneNotDonePopupActionCreator,
-} from '../ducks/common';
-import { routes } from '../../routes';
+import { createDoneNotDonePopupActionCreator } from '../ducks/common';
 import { HabitItemProps } from '../components/habit/types';
 import { HabitModel } from '../models/HabitModel';
 
@@ -90,10 +86,12 @@ export const notificationsMiddleware = (<S extends PartialState>({ dispatch }: M
                 });
             }
             case NOTIFICATIONS_INIT: {
+                console.log("INIT NOTIFICATION")
                 Notifications.addListener(async (payload) => {
                     switch (payload.origin) {
                         case Origin.Received:
                         case Origin.Selected:
+                            console.log("ORIGIN SELECTED")
                             const notifiedHabit = await HabitModel.getById(payload.data.habit.id);
                             if (!notifiedHabit.done) {
                                 dispatch(createDoneNotDonePopupActionCreator(payload.data.habit));

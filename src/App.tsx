@@ -4,6 +4,7 @@ import { StackNavigator } from "react-navigation";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import { ScreenOrientation } from 'expo';
 import { MainScreenConnected } from "./components/main-screen/MainScreen";
 import { reducer as commonReducer, setNavigationActionCreator } from "./ducks/common";
 import { ViewHabitConnected } from "./components/habit/components/view-habit/ViewHabit";
@@ -15,7 +16,7 @@ import {
     notificationsInitActionCreator,
     notificationsPermissionActionCreator,
 } from "./middleware/notifications";
-import { ScreenOrientation } from 'expo';
+import { once } from "lodash";
 
 const store = createStore(
     commonReducer as any, // TODO: Fix incompatible type
@@ -26,7 +27,9 @@ const store = createStore(
     ),
 );
 store.dispatch(initHabitRestActionCreator());
-store.dispatch(notificationsInitActionCreator());
+once(() => {
+    store.dispatch(notificationsInitActionCreator())
+})
 store.dispatch(notificationsPermissionActionCreator());
 ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT_UP);
 
