@@ -105,6 +105,12 @@ export class HabitModel {
         }));
     }
 
+    static async getById(id: number): Promise<HabitItemProps> {
+        const allHabits = await HabitModel.all();
+        const habitIndex = allHabits.findIndex(habit => habit.id === id);
+        return allHabits.slice(habitIndex, habitIndex + 1)[0];
+    }
+
     static async listHabitKeys() {
         try {
             const keys = await AsyncStorage.getAllKeys();

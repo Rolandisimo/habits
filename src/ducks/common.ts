@@ -4,6 +4,7 @@ import { HabitItemProps } from "../components/habit/types";
 import { Thunk } from "../types/types";
 import {
     createDeletePopup,
+    createDoneNotDonePopup,
 } from '../components/popup/factory/PopupFactory';
 import {
     PopupData,
@@ -11,10 +12,14 @@ import {
     PopupId,
 } from "../components/popup/factory/PopupData";
 import { createButton } from "../components/popup/factory/utils";
-import { deleteHabitRestActionCreator } from '../middleware/habitRest';
+import {
+    deleteHabitRestActionCreator,
+    editHabitRestActionCreator,
+} from '../middleware/habitRest';
 import { routes } from '../../routes';
 import { Filter } from '../components/filter-bar/types';
 import { getDoneHabits } from './utils';
+import { HabitModel } from '../models/HabitModel';
 
 // Habits
 const HABITS_INIT = "habits/HABITS_INIT";
@@ -256,6 +261,30 @@ export const createDeletePopupActionCreator = (habit: HabitItemProps): Thunk => 
                     () => dispatch(closePopupActionCreator(PopupId.DeletePopup)),
                 ),
             ],
+        })));
+    };
+}
+
+export const createDoneNotDonePopupActionCreator = (habit: HabitItemProps): Thunk => {
+    return (dispatch) => {
+        dispatch(openPopupAction(createDoneNotDonePopup({
+            buttons: [
+                createButton(
+                    PopupButtonType.Yes,
+                    () => {
+                        dispatch(editHabitRestActionCreator({
+                            ...habit,
+                            done: true,
+                        }));
+                        dispatch(closePopupActionCreator(PopupId.DoneNotDone));
+                    },
+                ),
+                createButton(
+                    PopupButtonType.No,
+                    () => dispatch(closePopupActionCreator(PopupId.DeletePopup)),
+                ),
+            ],
+            title: habit.name,
         })));
     };
 }

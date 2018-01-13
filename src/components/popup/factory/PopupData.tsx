@@ -2,6 +2,7 @@ import React from "react";
 
 export enum PopupId {
     DeletePopup = "DELETE_POPUP",
+    DoneNotDone = "DONE_NOT_DONE_POPUP",
 }
 export enum PopupButtonType {
     Yes = "yes",

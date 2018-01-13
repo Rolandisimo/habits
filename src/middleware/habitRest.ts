@@ -140,7 +140,7 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
                     if (!success) {
                         return;
                     }
-
+                    // TODO: Add functionaliy to remove todays notification
                     if (action.payload.notificationId) {
                         cancelScheduled(action.payload.notificationId);
                     }

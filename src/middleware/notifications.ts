@@ -8,8 +8,13 @@ import {
     Notifications,
     Permissions,
 } from "expo";
-import { selectNavigation } from '../ducks/common';
+import {
+    selectNavigation,
+    createDoneNotDonePopupActionCreator,
+} from '../ducks/common';
 import { routes } from '../../routes';
+import { HabitItemProps } from '../components/habit/types';
+import { HabitModel } from '../models/HabitModel';
 
 export const NOTIFICATIONS_INIT = "notifications/NOTIFICATIONS_INIT";
 export const NOTIFICATIONS_PERMISSION = "notifications/NOTIFICATIONS_PERMISSION";
@@ -57,11 +62,18 @@ export type NotificationsMiddlewareAction =
     | NotificationsPermissionAction
 ;
 
-export const notificationsMiddleware = (<S extends PartialState>({ dispatch, getState }: MiddlewareAPI<S>) => (next: any) => {
+export interface NotificationPayload {
+    data: {
+        habit: HabitItemProps;
+    },
+    origin: Origin;
+    remote: boolean;
+}
+
+export const notificationsMiddleware = (<S extends PartialState>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
     return (action: NotificationsMiddlewareAction) => {
         switch (action.type) {
             case NOTIFICATIONS_PERMISSION: {
-                console.log('Asking for permissions');
                 // Should be: Permissions.NOTIFICATIONS
                 Permissions.getAsync('remoteNotifications').then((getStatus) => {
                     // status === 'granted'
@@ -69,6 +81,8 @@ export const notificationsMiddleware = (<S extends PartialState>({ dispatch, get
                     if (getStatus.status !== 'granted') {
                         Permissions.askAsync('remoteNotifications').then((askStatus) => {
                             if (askStatus.status !== 'granted') {
+                                // TODO: Fill functionality or delete @aigarsPidar
+                                // Add popup asking if the user really wants not receiving notifs
                                 alert("SUKA DAJ PERMISIJI!");
                             }
                         });
@@ -76,22 +90,15 @@ export const notificationsMiddleware = (<S extends PartialState>({ dispatch, get
                 });
             }
             case NOTIFICATIONS_INIT: {
-                console.log("Start listening notifications.")
-                Notifications.addListener((payload: any) => {
-                    console.log("PAYLOAD:", payload);
+                Notifications.addListener(async (payload) => {
                     switch (payload.origin) {
                         case Origin.Received:
-                            
-                            break;
                         case Origin.Selected:
-                            selectNavigation(getState()).navigate(
-                                routes.ViewHabit,
-                                {
-                                    isNew: false,
-                                    isEditing: true,
-                                    habit: payload.data.habit,
-                                },
-                            );
+                            const notifiedHabit = await HabitModel.getById(payload.data.habit.id);
+                            if (!notifiedHabit.done) {
+                                dispatch(createDoneNotDonePopupActionCreator(payload.data.habit));
+                            }
+
                             break;
                         default:
                     }

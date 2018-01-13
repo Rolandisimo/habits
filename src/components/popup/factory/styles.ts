@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from '../../consts';
 
 export const styles = StyleSheet.create({
     label: {
@@ -6,5 +7,9 @@ export const styles = StyleSheet.create({
         color: "#000",
         textAlign: "center",
     },
+    accentedText: {
+        color: colors.mainColor,
+        fontWeight: "500",
+    }
 });
   
