@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { HabitItemProps } from "../components/habit/types";
 import { historyDate, keyExists } from './utils';
-// import { Notifications } from "expo"; // Do not delete I use it to clear scheduled notifications
+import { Notifications } from "expo"; // Do not delete I use it to clear scheduled notifications
 
 export class HabitModel {
     habit: HabitItemProps;

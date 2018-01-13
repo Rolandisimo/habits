@@ -112,7 +112,7 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
                     setHabitNotification(habit).then((notificationId: string | number) => {
                         const updatedHabit = {
                             ...habit,
-                            notificationId: `${notificationId}`,
+                            notificationId: notificationId,
                         }
 
                         HabitModel.update(updatedHabit);
