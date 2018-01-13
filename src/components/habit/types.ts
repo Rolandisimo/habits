@@ -4,7 +4,7 @@ export interface HabitItemProps {
     period: number;
     notificationTime: string;
     notificationId?: string;
-    done: boolean;
+    done: boolean; // Seeding each time we get done status from AsyncStorage. Based on current date.
     finished: boolean;
     createdAt: number;
 }

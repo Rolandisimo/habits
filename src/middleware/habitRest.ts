@@ -21,6 +21,7 @@ import { Thunk } from '../types/types';
 import {
     setHabitNotification,
     cancelScheduled,
+    shouldSetNotificationTime,
 } from "../notifications/notification"
 
 export const HABIT_ADD = "habitRest/HABIT_ADD";
@@ -144,15 +145,26 @@ export const habitRestMiddleware = (<S extends PartialState>({ dispatch }: Middl
                         cancelScheduled(action.payload.notificationId);
                     }
 
-                    setHabitNotification(action.payload).then((notificationId: string | number) => {
+                    const periodEndTimestamp = action.payload.createdAt + action.payload.period;
+                    if (shouldSetNotificationTime(periodEndTimestamp)) {
+                        setHabitNotification(action.payload).then((notificationId: string | number) => {
+                            const updatedHabit = {
+                                ...action.payload,
+                                notificationId: `${notificationId}`,
+                            }
+    
+                            HabitModel.update(updatedHabit);
+                            dispatch(editHabitActionCreator(updatedHabit));
+                        });
+                    } else {
                         const updatedHabit = {
                             ...action.payload,
-                            notificationId: `${notificationId}`,
+                            notificationId: undefined,
                         }
 
                         HabitModel.update(updatedHabit);
                         dispatch(editHabitActionCreator(updatedHabit));
-                    });
+                    }
                 });
                 break;
             }

@@ -58,6 +58,11 @@ export function cancelAllScheduled() {
     Notifications.cancelAllScheduledNotificationsAsync();
 }
 
+export function shouldSetNotificationTime(endTimestamp: number): boolean {
+    const currentTimestamp: number = + new Date();
+    return endTimestamp > currentTimestamp;
+}
+
 function nextNotificationTime(time: string) {
     const split = time.split(":");
 
