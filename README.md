@@ -1,1 +1,2 @@
-* Habit Forming application written in React Native + Typescript + Redux
+# Habit Forming application
+### Written in React Native + Typescript + Redux
